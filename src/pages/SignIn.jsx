@@ -1,7 +1,10 @@
 import React from 'react'
 import { useState } from 'react';
 import {AiFillEyeInvisible, AiFillEye} from "react-icons/ai"
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
+import {signInWithEmailAndPassword, getAuth} from "firebase/auth"
+import {toast} from "react-toastify"
+
 
 export default function Signin() {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,19 +22,40 @@ export default function Signin() {
     }));
   }
 
+  const navigate=useNavigate();
+
+  async function onSubmit(e) {
+    e.preventDefault();
+    try {
+
+      const auth = getAuth();
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      if (userCredential.user) {
+        toast.success("Entrar realizado com sucesso");
+        navigate("/");
+      }
+    } catch (error) {
+      toast.error("Email ou senha errada");
+    }
+  }
+
   return (
     <section>
       <h1 className='text-3xl text-center mt-6 font-bold m'>Sistema de Login</h1>
       <div className='flex flex-wrap items-center px-6 py-12 max-w-6xl mx-auto justify-center'>
         
         <div className='w-full md:w-[67%] lg:w-[40%] lg:ml-20 items-center'>
-          <form>
+          <form onSubmit={onSubmit}>
             <div>
               <input type="email" id='email'  
               value={email} 
               onChange={onChange}
               className="mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
-              placeholder="Informe seu email"
+              placeholder="Email"
               />
             </div>
             <div className='relative mb-6'>
@@ -39,7 +63,7 @@ export default function Signin() {
               value={password} 
               onChange={onChange}
               className="w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
-              placeholder="Informe sua senha"
+              placeholder="Senha"
               />
               {showPassword ? 
                 (
@@ -60,13 +84,14 @@ export default function Signin() {
                 <Link to = "/forgot-password" className="text-blue-600 hover:text-blue-800 transition duration-200 ease-in-out"> Esqueceu a senha?</Link>
               </p>
             </div>
-          </form>
             <button
               className="w-full bg-blue-600 text-white px-7 py-3 text-sm font-medium uppercase rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800"
               type="submit"
             >
               Entrar
             </button>
+          </form>
+           
         </div>
       </div>
     </section>
