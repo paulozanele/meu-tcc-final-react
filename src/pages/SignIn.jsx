@@ -36,7 +36,7 @@ export default function Signin() {
       );
       if (userCredential.user) {
         toast.success("Entrar realizado com sucesso");
-        navigate("/");
+        navigate("/profile");
       }
     } catch (error) {
       toast.error("Email ou senha errada");
