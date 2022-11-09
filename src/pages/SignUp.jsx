@@ -50,10 +50,11 @@ export default function SignUp() {
       formDataCopy.timestamp = serverTimestamp();
 
       await setDoc(doc(db, "users", user.uid), formDataCopy);
-      toast.success("Cadastro realizado com sucesso");
+      auth.signOut();
       navigate("/sign-in");
+      toast.success("Cadastro realizado com sucesso");
     } catch (error) {
-      toast.error("Algo errado com o cadastro, verifique o email e senha de seis digitos");
+      toast.error("Algo errado com o cadastro, verifique o email ou a senha mínima seis digitos");
     }
   }
   return (

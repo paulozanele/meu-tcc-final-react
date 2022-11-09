@@ -85,14 +85,14 @@ export default function Profile() {
 
             <div className="flex justify-between whitespace-nowrap text-sm sm:text-lg mb-6">
               <p className="flex items-center ">
-                Deseja editar seu nome?
+                
                 <span 
                 onClick = {() => {
                   changeDetail && onSubmit();
                  setChangeDetail((prevState) => !prevState)
                 }}
                 className={"text-blue-600 hover:text-blue-800 transition duration-200 ease-in-out cursor-pointer"}>
-                  {changeDetail ? "Apply change" : "Edit"}
+                  {changeDetail ? "Aplicar" : "Editar nome"}
                 </span>
               </p>
               <p
