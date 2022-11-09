@@ -1,9 +1,10 @@
 import { getAuth, updateProfile } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { db } from "../firebase";
+import {AiOutlineFundProjectionScreen} from "react-icons/ai"
 
 export default function Profile() {
   const auth = getAuth();
@@ -102,6 +103,15 @@ export default function Profile() {
               </p>
             </div>
           </form>
+          <button type="submit" 
+          className="w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
+            <Link to ="/create-listing">
+              Iniciar um novo projeto
+            </Link>
+
+          </button>
+
+
         </div>
       </section>
     </>
