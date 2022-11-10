@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import Spinner from "../components/Spinner";
 import { toast } from "react-toastify";
 import {
@@ -7,16 +7,29 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
+
+import {
+    addDoc,
+    collection,
+    doc,
+    getDoc,
+    serverTimestamp,
+    updateDoc,
+  } from "firebase/firestore";
+
 import { getAuth } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+
 import { db } from "../firebase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 export default function CreateListing() {
   const navigate = useNavigate();
   const auth = getAuth();
+  const params = useParams();
+  const [listing, setListing] = useState(null);
+
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState ({
     nivelDeAcesso: "admin",
@@ -49,6 +62,31 @@ export default function CreateListing() {
     historiaCenarios, 
     documentacao, 
     images,} = formData;
+    
+    useEffect(() => {
+    if (listing && listing.userRef !== auth.currentUser.uid) {
+      toast.error("You can't edit this listing");
+      navigate("/");
+    }
+    }, [auth.currentUser.uid, listing, navigate]);
+
+    useEffect(() => {
+        setLoading(true);
+        async function fetchListing() {
+          const docRef = doc(db, "listings", params.listingId);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            setListing(docSnap.data());
+            setFormData({ ...docSnap.data() });
+            setLoading(false);
+          } else {
+            navigate("/");
+            toast.error("Listing does not exist");
+          }
+        }
+        fetchListing();
+      }, [navigate, params.listingId]);
+
   
   function onChange(e) {
     let boolean = null;
@@ -117,7 +155,6 @@ export default function CreateListing() {
 
     const imgUrls = await Promise.all(
       [...images].map((image) => storeImage(image))
-      
     ).catch((error) => {
       setLoading(false);
       toast.error("Images not uploaded");
@@ -131,9 +168,14 @@ export default function CreateListing() {
       userRef: auth.currentUser.uid,
     };
     delete formDataCopy.images;
-    const docRef = await addDoc(collection(db, "listings"), formDataCopy);
+    !formDataCopy.offer && delete formDataCopy.discountedPrice;
+    delete formDataCopy.latitude;
+    delete formDataCopy.longitude;
+    const docRef = doc(db, "listings", params.listingId);
+
+    await updateDoc(docRef, formDataCopy);
     setLoading(false);
-    toast.success("Criado com sucesso");
+    toast.success("Editado com sucesso");
     navigate(`/category/${formDataCopy.type}/${docRef.id}`);
   }
 
