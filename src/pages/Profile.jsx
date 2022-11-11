@@ -15,6 +15,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import ListingItem from "../components/ListingItem";
+import ListingItemDoc from "../components/ListingItemDoc";
 
 export default function Profile() {
   const auth = getAuth();
@@ -62,13 +63,14 @@ export default function Profile() {
     }
     
   }
+
+
   useEffect(() => {
     async function fetchUserListings() {
       const listingRef = collection(db, "listings");
       const q = query(
         listingRef,
         where("userRef", "==", auth.currentUser.uid),
-        orderBy("timestamp", "desc")
       );
       const querySnap = await getDocs(q);
       let listings = [];
@@ -84,19 +86,22 @@ export default function Profile() {
     fetchUserListings();
   }, [auth.currentUser.uid]);
 
+
   async function onDelete(listingID) {
-    if (window.confirm("Tem certeza que deseja deletar o projeto?")) {
+    if (window.confirm("Tem certeza que deseja deletar?")) {
       await deleteDoc(doc(db, "listings", listingID));
       const updatedListings = listings.filter(
         (listing) => listing.id !== listingID
       );
       setListings(updatedListings);
-      toast.success("Projeto deletado com sucesso");
+      toast.success("Deletado com sucesso");
     }
   }
   function onEdit(listingID) {
     navigate(`/edit-listing/${listingID}`);
   }
+
+
   return (
     <>
       <section className="max-w-6xl mx-auto flex justify-center items-center flex-col">
@@ -146,11 +151,28 @@ export default function Profile() {
             </div>
           </form>
           <button type="submit" 
-          className="w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
+          className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
             <Link to ="/create-listing">
-              Iniciar um novo projeto
+              Iniciar um novo projeto - Somente Administradores
             </Link>
-
+          </button>
+          <button type="submit" 
+          className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
+            <Link to ="/create-listing-doc">
+              Iniciar uma nova documentação - Somente Documentadores
+            </Link>
+          </button>
+          <button type="submit" 
+          className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
+            <Link to ="/create-listing">
+              Iniciar um feedback referente ao teste - Somente Testadores
+            </Link>
+          </button>
+          <button type="submit" 
+          className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
+            <Link to ="/create-listing">
+              Iniciar uma nova narrativa e suas histórias - Somente Desenvolvedores
+            </Link>
           </button>
         </div>
       </section>
@@ -158,9 +180,9 @@ export default function Profile() {
         {!loading && listings.length > 0 && (
           <>
             <h2 className="text-2xl text-center font-semibold mb-6">
-              My Listings
+              Meus Dados
             </h2>
-            <ul className="sm:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+            <ul className="sm:grid grid-cols-2 lg:grid-cols-3 ">
               {listings.map((listing) => (
                 <ListingItem
                   key={listing.id}

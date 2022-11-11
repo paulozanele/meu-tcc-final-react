@@ -20,7 +20,6 @@ export default function CreateListing() {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState ({
     nivelDeAcesso: "admin",
-    nomeProjeto: "",
     descricaoProjeto:"",
     planoDeTestes: false,
     especDoProjetoDeTeste: false,
@@ -32,10 +31,10 @@ export default function CreateListing() {
     relatoSumarioDeTestes: false,
     historiaCenarios: false,
     documentacao: false,
-    arquivos: {},
+    images: {},
   });
   const {
-    nivelDeAcesso, 
+    nivelDeAcesso,
     nomeProjeto, 
     descricaoProjeto, 
     planoDeTestes, 
@@ -77,12 +76,12 @@ export default function CreateListing() {
     e.preventDefault();
     setLoading(true);
     
-    async function storeImage(image) {
+    async function storeImage(application) {
       return new Promise((resolve, reject) => {
         const storage = getStorage();
-        const filename = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
+        const filename = `${auth.currentUser.uid}-${application.name}-${uuidv4()}`;
         const storageRef = ref(storage, filename);
-        const uploadTask = uploadBytesResumable(storageRef, image);
+        const uploadTask = uploadBytesResumable(storageRef, application);
         uploadTask.on(
           "state_changed",
           (snapshot) => {
@@ -116,7 +115,7 @@ export default function CreateListing() {
     }
 
     const imgUrls = await Promise.all(
-      [...images].map((image) => storeImage(image))
+      [...images].map((application) => storeImage(application))
       
     ).catch((error) => {
       setLoading(false);
@@ -134,7 +133,7 @@ export default function CreateListing() {
     const docRef = await addDoc(collection(db, "listings"), formDataCopy);
     setLoading(false);
     toast.success("Criado com sucesso");
-    navigate(`/category/${formDataCopy.type}/${docRef.id}`);
+    navigate(`/category/${formDataCopy.nivelDeAcesso}/${docRef.id}`);
   }
 
   if (loading) {
@@ -436,7 +435,7 @@ export default function CreateListing() {
           </p>
           <input
             type="file"
-            id="arquivos"
+            id="images"
             onChange={onChange}
             accept=".jpg,.png,.jpeg,.pdf,"
             multiple

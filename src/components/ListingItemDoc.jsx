@@ -13,8 +13,7 @@ export default function ListingItem({ users, listing, id, onEdit, onDelete }) {
                     fromNow>
                   {listing.timestamp?.toDate()}
                   </Moment>
-                  <p className="font-semibold m-0 text-xl truncate" >{listing.nomeProjeto}</p>
-                  <p className="font-semibold text-sm mb-[2px] text-gray-600 truncate" >{listing.descricaoProjeto}</p>
+                  <p className="font-semibold m-0 text-xl truncate" >{listing.tituloDocTestes}</p>
               </div>
             </Link>
             {onDelete && (

@@ -45,7 +45,7 @@ export default function CreateListing() {
     relatoSumarioDeTestes: false,
     historiaCenarios: false,
     documentacao: false,
-    arquivos: {},
+    images: {},
   });
   const {
     nivelDeAcesso, 
@@ -478,7 +478,7 @@ export default function CreateListing() {
           </p>
           <input
             type="file"
-            id="arquivos"
+            id="images"
             onChange={onChange}
             accept=".jpg,.png,.jpeg,.pdf,"
             multiple
