@@ -34,6 +34,7 @@ export default function CreateListing() {
     images: {},
   });
   const {
+
     nivelDeAcesso,
     nomeProjeto, 
     descricaoProjeto, 
@@ -166,7 +167,7 @@ export default function CreateListing() {
         />
 
 
-        <p className="text-lg mt-6 font-semibold">Plano de testes - Responsabilidade do criador do projeto</p>
+        <p className="text-lg mt-6 font-semibold">Plano dos testes - Responsabilidade do criador do projeto</p>
         <div className="flex">
           <button
             type="button"
@@ -192,7 +193,7 @@ export default function CreateListing() {
           </button>
         </div>
 
-        <p className="text-lg mt-6 font-semibold">Especificação do projeto de teste - Responsabilidade testador </p>   
+        <p className="text-lg mt-6 font-semibold">Especificação do projeto dos testes -  Responsabilidade do criador do projeto </p>   
         <div className="flex">
           <button
             type="button"
@@ -218,7 +219,7 @@ export default function CreateListing() {
           </button>
         </div>
 
-        <p className="text-lg mt-6 font-semibold">Especificação dos casos de teste - Responsabilidade testador </p>   
+        <p className="text-lg mt-6 font-semibold">Especificação dos casos de teste -  Responsabilidade do criador do projeto </p>   
         <div className="flex">
           <button
             type="button"
@@ -245,7 +246,7 @@ export default function CreateListing() {
         </div>
 
 
-        <p className="text-lg mt-6 font-semibold">Especificação de procedimento de teste - Responsabilidade testador </p>   
+        <p className="text-lg mt-6 font-semibold">Especificação de procedimento dos testes -  Responsabilidade do criador do projeto </p>   
         <div className="flex">
           <button
             type="button"
@@ -272,7 +273,7 @@ export default function CreateListing() {
         </div>
 
         
-        <p className="text-lg mt-6 font-semibold">Relátorio do status de teste - Responsabilidade testador </p>   
+        <p className="text-lg mt-6 font-semibold">Relátorios dos status dos testes - Responsabilidade testador </p>   
         <div className="flex">
           <button
             type="button"
@@ -299,7 +300,7 @@ export default function CreateListing() {
         </div>
 
 
-        <p className="text-lg mt-6 font-semibold">Log de teste - Responsabilidade testador </p>   
+        <p className="text-lg mt-6 font-semibold">Logs dos testes - Responsabilidade testador </p>   
         <div className="flex">
           <button
             type="button"
@@ -325,7 +326,7 @@ export default function CreateListing() {
           </button>
         </div>
 
-        <p className="text-lg mt-6 font-semibold">Relátorio de incidente de testes - Responsabilidade testador </p>   
+        <p className="text-lg mt-6 font-semibold">Relátorios dos incidentes dos testes - Responsabilidade testador </p>   
         <div className="flex">
           <button
             type="button"
@@ -351,7 +352,7 @@ export default function CreateListing() {
           </button>
         </div>
 
-        <p className="text-lg mt-6 font-semibold">Relátorio sumário testes - Responsabilidade testador</p>   
+        <p className="text-lg mt-6 font-semibold">Relátorios sumários dos testes - Responsabilidade testador</p>   
         <div className="flex">
           <button
             type="button"
@@ -377,7 +378,7 @@ export default function CreateListing() {
           </button>
         </div>
 
-        <p className="text-lg mt-6 font-semibold">História e Cenários - Responsabilidade desenvolvedor</p>   
+        <p className="text-lg mt-6 font-semibold">Histórias e Cenários - Responsabilidade desenvolvedor</p>   
         <div className="flex">
           <button
             type="button"
@@ -403,7 +404,7 @@ export default function CreateListing() {
           </button>
         </div>
 
-        <p className="text-lg mt-6 font-semibold">Documentação - Responsabilidade documentador</p>   
+        <p className="text-lg mt-6 font-semibold">Documentações - Responsabilidade documentador</p>   
         <div className="flex">
           <button
             type="button"

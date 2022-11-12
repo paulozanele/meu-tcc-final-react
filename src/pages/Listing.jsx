@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import { db } from "../firebase";
-import Contact from "../components/Contact";
 import { getAuth } from "firebase/auth";
 
 
@@ -14,7 +13,6 @@ export default function Listing() {
   const params = useParams();
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [contactLandlord, setContactLandlord] = useState(false);
 
   useEffect(() => {
     async function fetchListing() {
@@ -55,34 +53,37 @@ export default function Listing() {
                 {listing.especDoProjetoDeTeste ? "Sim" : "Nao"}
             </li>
             <li className="flex items-center whitespace-nowrap">
-                <span className="font-semibold">Especificação dos casos de teste - </span>
+                <span className="font-semibold">Especificação dos casos de testes - </span>
                 {listing.especCasosDeTeste ? "Sim" : "Nao"}
             </li>
             <li className="flex items-center whitespace-nowrap">
-                <span className="font-semibold">Especificação de procedimento de teste - </span>
+                <span className="font-semibold">Especificação de procedimentos de testes - </span>
                 {listing.especDeProcedimentoDeTeste ? "Sim" : "Nao"}
             </li>
             <li className="flex items-center whitespace-nowrap">
-                <span className="font-semibold">Relatório do status de teste - </span>
+                <span className="font-semibold">Relatórios do status de testes - </span>
                 {listing.relatoStatusDeTeste ? "Sim" : "Nao"}
             </li>
             <li className="flex items-center whitespace-nowrap">
-                <span className="font-semibold">Log de teste - </span>
+                <span className="font-semibold">Logs de testes - </span>
                 {listing.logDeTeste ? "Sim" : "Nao"}
             </li>
             <li className="flex items-center whitespace-nowrap">
-                <span className="font-semibold">Relatório incidente de testes - </span>
+                <span className="font-semibold">Relatórios incidentes de testes - </span>
                 {listing.relatoIncidenteDeTestes ? "Sim" : "Nao"}
             </li>
-
-            
-
             <li className="flex items-center whitespace-nowrap">
-                <span className="font-semibold">Relatório súmario de testes - </span>
-                {listing.relatoSumarioDeTestes ? "Sim" : "Nao"}
-             
-                
+                <span className="font-semibold">Relatórios súmarios de testes - </span>
+                {listing.relatoSumarioDeTestes ? "Sim" : "Nao"}  
             </li>
+            <li className="flex items-center whitespace-nowrap">
+                <span className="font-semibold"> Narrativas e cenários - </span>
+                {listing.historiaCenarios  ? "Sim" : "Nao"}
+            </li>
+            <li className="flex items-center whitespace-nowrap">
+                <span className="font-semibold"> Documentações- </span>
+                {listing.documentacao  ? "Sim" : "Nao"}
+            </li>      
         </div>
       </div>
     </main>

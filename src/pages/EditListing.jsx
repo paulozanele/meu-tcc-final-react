@@ -185,7 +185,7 @@ export default function CreateListing() {
   return (
     <main className='max-w-md px-2 mx-auto'>
       <h1 className='text-3xl text-center mt-6
-      font-bold'> Novo Projeto </h1>
+      font-bold'> Editar o projeto </h1>
 
       <form onSubmit={onSubmit} >
 
@@ -209,7 +209,7 @@ export default function CreateListing() {
         />
 
 
-        <p className="text-lg mt-6 font-semibold">Plano de testes - Responsabilidade do criador do projeto</p>
+        <p className="text-lg mt-6 font-semibold">Plano dos testes - Responsabilidade do criador do projeto</p>
         <div className="flex">
           <button
             type="button"
@@ -235,7 +235,7 @@ export default function CreateListing() {
           </button>
         </div>
 
-        <p className="text-lg mt-6 font-semibold">Especificação do projeto de teste - Responsabilidade testador </p>   
+        <p className="text-lg mt-6 font-semibold">Especificação do projeto dos testes - Responsabilidade do criador do projeto </p>   
         <div className="flex">
           <button
             type="button"
@@ -261,7 +261,7 @@ export default function CreateListing() {
           </button>
         </div>
 
-        <p className="text-lg mt-6 font-semibold">Especificação dos casos de teste - Responsabilidade testador </p>   
+        <p className="text-lg mt-6 font-semibold">Especificação dos casos de teste - Responsabilidade do criador do projeto </p>   
         <div className="flex">
           <button
             type="button"
@@ -288,7 +288,7 @@ export default function CreateListing() {
         </div>
 
 
-        <p className="text-lg mt-6 font-semibold">Especificação de procedimento de teste - Responsabilidade testador </p>   
+        <p className="text-lg mt-6 font-semibold">Especificação de procedimento dos testes - Responsabilidade do criador do projeto </p>   
         <div className="flex">
           <button
             type="button"
@@ -315,7 +315,7 @@ export default function CreateListing() {
         </div>
 
         
-        <p className="text-lg mt-6 font-semibold">Relátorio do status de teste - Responsabilidade testador </p>   
+        <p className="text-lg mt-6 font-semibold">Relátorios dos status dos testes - Responsabilidade testador </p>   
         <div className="flex">
           <button
             type="button"
@@ -342,7 +342,7 @@ export default function CreateListing() {
         </div>
 
 
-        <p className="text-lg mt-6 font-semibold">Log de teste - Responsabilidade testador </p>   
+        <p className="text-lg mt-6 font-semibold">Logs dos testes - Responsabilidade testador </p>   
         <div className="flex">
           <button
             type="button"
@@ -368,7 +368,7 @@ export default function CreateListing() {
           </button>
         </div>
 
-        <p className="text-lg mt-6 font-semibold">Relátorio de incidente de testes - Responsabilidade testador </p>   
+        <p className="text-lg mt-6 font-semibold">Relátorios dos incidentes dos testes - Responsabilidade testador </p>   
         <div className="flex">
           <button
             type="button"
@@ -394,7 +394,7 @@ export default function CreateListing() {
           </button>
         </div>
 
-        <p className="text-lg mt-6 font-semibold">Relátorio sumário testes - Responsabilidade testador</p>   
+        <p className="text-lg mt-6 font-semibold">Relátorios sumários dos testes - Responsabilidade testador</p>   
         <div className="flex">
           <button
             type="button"
@@ -420,7 +420,7 @@ export default function CreateListing() {
           </button>
         </div>
 
-        <p className="text-lg mt-6 font-semibold">História e Cenários - Responsabilidade desenvolvedor</p>   
+        <p className="text-lg mt-6 font-semibold">Narrativas e Cenários - Responsabilidade desenvolvedor</p>   
         <div className="flex">
           <button
             type="button"
@@ -446,7 +446,7 @@ export default function CreateListing() {
           </button>
         </div>
 
-        <p className="text-lg mt-6 font-semibold">Documentação - Responsabilidade documentador</p>   
+        <p className="text-lg mt-6 font-semibold">Documentações - Responsabilidade documentador</p>   
         <div className="flex">
           <button
             type="button"
@@ -486,7 +486,7 @@ export default function CreateListing() {
             className="w-full px-3 py-1.5 text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:border-slate-600"
           />
         </div>
-        <button type="submit" className="mb-6 w-full px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Criar Projeto
+        <button type="submit" className="mb-6 w-full px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Editar Projeto
         </button>
         
         </form>

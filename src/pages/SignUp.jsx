@@ -20,7 +20,6 @@ export default function SignUp() {
     name: "",
     email: "",
     password: "",
-    accessLevel:"admin",
   });
   const { name, email, password } = formData;
   const navigate = useNavigate();

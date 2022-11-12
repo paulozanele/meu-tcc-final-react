@@ -113,7 +113,7 @@ export default function CreateListingDoc() {
       userRef: auth.currentUser.uid,
     };
     delete formDataCopy.images;
-    const docRef = await addDoc(collection(db, "listings"), formDataCopy);
+    const docRef = await addDoc(collection(db, "listingsDoc"), formDataCopy);
     setLoading(false);
     toast.success("Criado com sucesso");
     navigate(`/category/${formDataCopy.nivelDeAcesso}/${docRef.id}`);
@@ -125,14 +125,14 @@ export default function CreateListingDoc() {
   return (
     <main className='max-w-md px-2 mx-auto'>
       <h1 className='text-3xl text-center mt-6
-      font-bold'> Nova documentacao referente a testes </h1>
+      font-bold'> Nova documentação referente ao teste </h1>
 
       <form onSubmit={onSubmit} >
 
         <p className='text-lg mt-6 font-semibold'>Título referente a documentação</p>
         <div className=''>
           <input type='text' id="tituloDocTestes" value={tituloDocTestes} onChange={onChange}
-          placeholder="Título referente a documentação" maxLength="32" minLength="10" required className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6'/>
+          placeholder="Título" maxLength="32" minLength="10" required className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6'/>
         </div>
 
 

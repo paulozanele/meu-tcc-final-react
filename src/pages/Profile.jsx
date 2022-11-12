@@ -14,8 +14,6 @@ import {
   where,
   deleteDoc,
 } from "firebase/firestore";
-import ListingItem from "../components/ListingItem";
-import ListingItemDoc from "../components/ListingItemDoc";
 
 export default function Profile() {
   const auth = getAuth();
@@ -63,7 +61,6 @@ export default function Profile() {
     }
     
   }
-
 
   useEffect(() => {
     async function fetchUserListings() {
@@ -152,50 +149,30 @@ export default function Profile() {
           </form>
           <button type="submit" 
           className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
-            <Link to ="/create-listing">
-              Iniciar um novo projeto - Somente Administradores
+            <Link to ="/profile-admin">
+              Entrar como Administrador
             </Link>
           </button>
           <button type="submit" 
           className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
-            <Link to ="/create-listing-doc">
-              Iniciar uma nova documentação - Somente Documentadores
+            <Link to ="/profile-doc">
+              Entre como Documentador
             </Link>
           </button>
           <button type="submit" 
           className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
-            <Link to ="/create-listing">
-              Iniciar um feedback referente ao teste - Somente Testadores
+            <Link to ="/profile-test">
+              Entre como Testador
             </Link>
           </button>
           <button type="submit" 
           className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
-            <Link to ="/create-listing">
+            <Link to ="/profile-dev">
               Iniciar uma nova narrativa e suas histórias - Somente Desenvolvedores
             </Link>
           </button>
         </div>
       </section>
-      <div className="max-w-6xl px-3 mt-6 mx-auto">
-        {!loading && listings.length > 0 && (
-          <>
-            <h2 className="text-2xl text-center font-semibold mb-6">
-              Meus Dados
-            </h2>
-            <ul className="sm:grid grid-cols-2 lg:grid-cols-3 ">
-              {listings.map((listing) => (
-                <ListingItem
-                  key={listing.id}
-                  id={listing.id}
-                  listing={listing.data}
-                  onDelete={()=>onDelete(listing.id)}
-                  onEdit={()=>onEdit(listing.id)}
-                />
-              ))}
-            </ul>
-          </>
-        )}
-      </div>
     </>
   );
 }
