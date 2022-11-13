@@ -20,6 +20,7 @@ import CreateListingTest from "./pages/CreateListingTest";
 
 import ProfileDev from "./pages/ProfileDev";
 import CreateListingDev from "./pages/CreateListingDev";
+import EditListingDev from "./pages/EditListingDev"
 
 
 
@@ -75,23 +76,27 @@ function App() {
             <Route path="/profile-doc" element={<ProfileDoc />} />
           </Route>
 
-          <Route path="/category/:categoryName/:listingId" element={<ListingTest />} />
-          <Route path="/category/:categoryName/:listingId" element={<ListingDoc />} />
-          <Route path="/category/:categoryName/:listingId" element={<Listing />} />
-          
 
-
+          <Route path="/admin/:listingId" element={<Listing/>} />
+          <Route path="/dev/:listingId" element={<ListingDev/>}/>
+          <Route path="/test/:listingId" element={<ListingTest/>} />
+          <Route path="/doc/:listingId" element={<ListingDoc/>}/>
+    
           
-          <Route path="edit-listing-test" element={<PrivateRoute/>}>
-            <Route path="/edit-listing-test/:listingId" element={<EditListingTest />} />
-          </Route>  
-        
+          
+      
           <Route path="edit-listing" element={<PrivateRoute/>}>
             <Route path="/edit-listing/:listingId" element={<EditListing />} />
           </Route>
           <Route path="edit-listing-doc" element={<PrivateRoute/>}>
             <Route path="/edit-listing-doc/:listingId" element={<EditListingDoc />} />
-          </Route>  
+          </Route>
+          <Route path="edit-listing-test" element={<PrivateRoute/>}>
+            <Route path="/edit-listing-test/:listingId" element={<EditListingTest />} />
+          </Route>
+          <Route path="edit-listing-dev" element={<PrivateRoute/>}>
+            <Route path="/edit-listing-dev/:listingId" element={<EditListingDev />} />
+          </Route>    
   
           
         </Routes>

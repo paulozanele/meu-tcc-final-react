@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import { db } from "../firebase";
 import { getAuth } from "firebase/auth";
+import Contact from "../components/Contact";
 
 
 export default function Listing() {
@@ -83,7 +84,11 @@ export default function Listing() {
             <li className="flex items-center whitespace-nowrap">
                 <span className="font-semibold"> Documentações- </span>
                 {listing.documentacao  ? "Sim" : "Nao"}
-            </li>      
+            </li>
+            <li className="flex items-center whitespace-nowrap">
+                <span className="font-semibold"> Responsável- </span>
+                {listing.userEmail}
+            </li>       
         </div>
       </div>
     </main>

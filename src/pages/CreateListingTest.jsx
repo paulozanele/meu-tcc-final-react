@@ -19,10 +19,15 @@ export default function CreateListingDoc() {
   const auth = getAuth();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState ({
-    nivelDeAcesso: "documentador",
+    nivelDeAcesso: "testador",
     tituloDocTestes: "",
     docTestes:"",
     obsDoc:"",
+
+    relatoStatusDeTeste:"",
+    logDeTeste:"",
+    relatoIncidenteDeTestes:"",
+    relatoSumarioDeTestes:"",
     images: {},
   });
   const { 
@@ -30,6 +35,12 @@ export default function CreateListingDoc() {
     obsDoc,
     tituloDocTestes,
     docTestes, 
+
+    relatoStatusDeTeste,
+    logDeTeste,
+    relatoIncidenteDeTestes,
+    relatoSumarioDeTestes,
+    
     images,} = formData;
   
   function onChange(e) {
@@ -114,10 +125,11 @@ export default function CreateListingDoc() {
       userEmail: auth.currentUser.email,
     };
     delete formDataCopy.images;
-    const docRef = await addDoc(collection(db, "listingsDoc"), formDataCopy);
+    const docRef = await addDoc(collection(db, "listingsTest"), formDataCopy);
     setLoading(false);
     toast.success("Criado com sucesso");
-    navigate("/profile-doc");
+    //navigate("/");
+    navigate("/profile-test");
     //navigate(`/category/${formDataCopy.nivelDeAcesso}/${docRef.id}`);
   }
 
@@ -127,11 +139,11 @@ export default function CreateListingDoc() {
   return (
     <main className='max-w-md px-2 mx-auto'>
       <h1 className='text-3xl text-center mt-6
-      font-bold'> Nova documentação referente ao teste </h1>
+      font-bold'> Novos dados referente ao teste </h1>
 
       <form onSubmit={onSubmit} >
 
-        <p className='text-lg mt-6 font-semibold'>Título referente a documentação</p>
+        <p className='text-lg mt-6 font-semibold'>Título referente ao teste</p>
         <div className=''>
           <input type='text' id="tituloDocTestes" value={tituloDocTestes} onChange={onChange}
           placeholder="Título" maxLength="32" minLength="10" required className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6'/>
@@ -145,7 +157,7 @@ export default function CreateListingDoc() {
           value={docTestes}
           onChange={onChange}
           placeholder="Aqui a linguagem mais técnica dos testadores, recebidas por meio dos testes das narrativas e cenários. São transcritas de formas mais clara de entender, para fazer parte da documentação final referente aos testes"
-          required
+          //required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
     
@@ -156,7 +168,52 @@ export default function CreateListingDoc() {
           value={obsDoc}
           onChange={onChange}
           placeholder="Observações importantes sobre a realização da documentação"
-          required
+          //required
+          className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
+        />
+        
+        <p className="text-lg font-semibold">Relatório status do teste</p>
+        <textarea
+          type="text"
+          id="relatoStatusDeTeste"
+          value={relatoStatusDeTeste}
+          onChange={onChange}
+          placeholder="Resultado obtido a partir do teste do caso de uso e o responsável"
+          //required
+          className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
+        />
+
+        <p className="text-lg font-semibold">Log do teste</p>
+        <textarea
+          type="text"
+          id="logDeTeste"
+          value={logDeTeste}
+          onChange={onChange}
+          placeholder="Observações importantes sobre a realização da documentação"
+          //required
+          className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
+        />
+
+        <p className="text-lg font-semibold">Relatório de incidente do teste</p>
+        <textarea
+          type="text"
+          id="relatoIncidenteDeTestes"
+          value={relatoIncidenteDeTestes}
+          onChange={onChange}
+          placeholder="Eventos que ocorreram na execução do teste "
+          //required
+          className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
+        />
+
+
+      <p className="text-lg font-semibold">Relatório sumário do teste</p>
+        <textarea
+          type="text"
+          id="relatoSumarioDeTestes"
+          value={relatoSumarioDeTestes}
+          onChange={onChange}
+          placeholder="Resultados obtidos"
+          //required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
         <div className="mb-6">

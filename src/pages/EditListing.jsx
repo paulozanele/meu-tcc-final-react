@@ -176,7 +176,8 @@ export default function CreateListing() {
     await updateDoc(docRef, formDataCopy);
     setLoading(false);
     toast.success("Editado com sucesso");
-    navigate(`/category/${formDataCopy.type}/${docRef.id}`);
+    navigate("/profile-admin");
+    //navigate(`/category/${formDataCopy.type}/${docRef.id}`);
   }
 
   if (loading) {

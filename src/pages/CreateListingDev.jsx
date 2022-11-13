@@ -19,17 +19,19 @@ export default function CreateListingDoc() {
   const auth = getAuth();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState ({
-    nivelDeAcesso: "documentador",
-    tituloDocTestes: "",
-    docTestes:"",
+    nivelDeAcesso: "desenvolvedor",
+    tituloNarrativa:"",
+    narrativa:"",
+    cenarios:"",
     obsDoc:"",
     images: {},
   });
   const { 
     nivelDeAcesso,
-    obsDoc,
-    tituloDocTestes,
-    docTestes, 
+    tituloNarrativa,
+    narrativa,
+    cenarios,
+    obsDoc, 
     images,} = formData;
   
   function onChange(e) {
@@ -110,14 +112,15 @@ export default function CreateListingDoc() {
       ...formData,
       imgUrls,
       timestamp: serverTimestamp(),
-      userRef: auth.currentUser.uid,
       userEmail: auth.currentUser.email,
+      userRef: auth.currentUser.uid,
     };
     delete formDataCopy.images;
-    const docRef = await addDoc(collection(db, "listingsDoc"), formDataCopy);
+    const docRef = await addDoc(collection(db, "listingsDev"), formDataCopy);
     setLoading(false);
     toast.success("Criado com sucesso");
-    navigate("/profile-doc");
+    //navigate("/");
+    navigate("/profile-dev");
     //navigate(`/category/${formDataCopy.nivelDeAcesso}/${docRef.id}`);
   }
 
@@ -127,26 +130,38 @@ export default function CreateListingDoc() {
   return (
     <main className='max-w-md px-2 mx-auto'>
       <h1 className='text-3xl text-center mt-6
-      font-bold'> Nova documentação referente ao teste </h1>
+      font-bold'> Nova narrativa </h1>
 
       <form onSubmit={onSubmit} >
 
-        <p className='text-lg mt-6 font-semibold'>Título referente a documentação</p>
+        <p className='text-lg mt-6 font-semibold'>Título nova narrativa</p>
         <div className=''>
-          <input type='text' id="tituloDocTestes" value={tituloDocTestes} onChange={onChange}
-          placeholder="Título" maxLength="32" minLength="10" required className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6'/>
+          <input type='text' id="tituloNarrativa" value={tituloNarrativa} onChange={onChange}
+          placeholder="Título do narrativa" maxLength="32" minLength="10" required className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6'/>
         </div>
 
 
-        <p className="text-lg font-semibold">Descrição</p>
+        <p className="text-lg font-semibold">Narrativa</p>
         <textarea
           type="text"
-          id="docTestes"
-          value={docTestes}
+          id="narrativa"
+          value={narrativa}
           onChange={onChange}
-          placeholder="Aqui a linguagem mais técnica dos testadores, recebidas por meio dos testes das narrativas e cenários. São transcritas de formas mais clara de entender, para fazer parte da documentação final referente aos testes"
+          placeholder="Como, Quero, Para que"
           required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
+        />
+
+        
+        <p className="text-lg font-semibold">Cenários</p>
+        <textarea
+          type="text"
+          id="cenarios"
+          value={cenarios}
+          onChange={onChange}
+          placeholder="Dado, Quando, Então"
+          required
+          className="w-full px-4 py-7 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
     
         <p className="text-lg font-semibold">Observações importantes</p>
@@ -155,7 +170,7 @@ export default function CreateListingDoc() {
           id="obsDoc"
           value={obsDoc}
           onChange={onChange}
-          placeholder="Observações importantes sobre a realização da documentação"
+          placeholder="Observações importantes sobre as narrativas e cenários"
           required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
@@ -175,7 +190,6 @@ export default function CreateListingDoc() {
         </div>
         <button type="submit" className="mb-6 w-full px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Criar
         </button>
-        
         </form>
     </main>
   )

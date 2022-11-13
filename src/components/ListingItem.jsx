@@ -7,7 +7,7 @@ import {MdEdit} from "react-icons/md";
 export default function ListingItem({ users, listing, id, onEdit, onDelete }) {
   return(
    <li className="relative bg-white flex flex-col justify-between items-center shadow-md hover:shadow-xl rounded-md overflow-hidden transition-shadow duration-150 m-[10px]">
-            <Link to={`/category/${listing.nivelDeAcesso}/${id}`}>
+            <Link to={`/admin/${id}`}>
               <div className='w-full p-[70px]  '>
                 <Moment className=" font-semibold text-sm mb-[2px] text-gray-600 truncate"
                     fromNow>

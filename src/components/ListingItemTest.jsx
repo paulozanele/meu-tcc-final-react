@@ -4,10 +4,10 @@ import Moment from "react-moment";
 import {FaTrash} from "react-icons/fa";
 import {MdEdit} from "react-icons/md";
 
-export default function ListingItemDoc({ users, listing, id, onEdit, onDelete }) {
+export default function ListingItemTest({ users, listing, id, onEdit, onDelete }) {
   return(
    <li className="relative bg-white flex flex-col justify-between items-center shadow-md hover:shadow-xl rounded-md overflow-hidden transition-shadow duration-150 m-[10px]">
-            <Link to={`/doc/${id}`}>
+            <Link to={`/test/${id}`}>
               <div className='w-full p-[70px]  '>
                 <Moment className=" font-semibold text-sm mb-[2px] text-gray-600 truncate"
                     fromNow>

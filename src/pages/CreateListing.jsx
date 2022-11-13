@@ -129,12 +129,15 @@ export default function CreateListing() {
       imgUrls,
       timestamp: serverTimestamp(),
       userRef: auth.currentUser.uid,
+      userEmail: auth.currentUser.email,
     };
     delete formDataCopy.images;
     const docRef = await addDoc(collection(db, "listings"), formDataCopy);
     setLoading(false);
     toast.success("Criado com sucesso");
-    navigate(`/category/${formDataCopy.nivelDeAcesso}/${docRef.id}`);
+    navigate("/profile-admin");
+    
+    //navigate(`/category/${formDataCopy.nivelDeAcesso}/${docRef.id}`);
   }
 
   if (loading) {

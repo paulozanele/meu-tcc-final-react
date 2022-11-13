@@ -14,8 +14,9 @@ import {
   where,
   deleteDoc,
 } from "firebase/firestore";
+import ListingItemDev from "../components/ListingItemDev";
 
-export default function Profile() {
+export default function ProfileDev() {
   const auth = getAuth();
   const navigate = useNavigate();
   const [changeDetail, setChangeDetail] = useState(false);
@@ -64,7 +65,7 @@ export default function Profile() {
 
   useEffect(() => {
     async function fetchUserListings() {
-      const listingRef = collection(db, "listings");
+      const listingRef = collection(db, "listingsDev");
       const q = query(
         listingRef,
         where("userRef", "==", auth.currentUser.uid),
@@ -86,7 +87,7 @@ export default function Profile() {
 
   async function onDelete(listingID) {
     if (window.confirm("Tem certeza que deseja deletar?")) {
-      await deleteDoc(doc(db, "listings", listingID));
+      await deleteDoc(doc(db, "listingsDev", listingID));
       const updatedListings = listings.filter(
         (listing) => listing.id !== listingID
       );
@@ -95,7 +96,7 @@ export default function Profile() {
     }
   }
   function onEdit(listingID) {
-    navigate(`/edit-listing/${listingID}`);
+    navigate(`/edit-listing-dev/${listingID}`);
   }
 
 
@@ -127,52 +128,38 @@ export default function Profile() {
               disabled
               className="mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out"
             />
-
             <div className="flex justify-between whitespace-nowrap text-sm sm:text-lg mb-6">
-              <p className="flex items-center ">
-                
-                <span 
-                onClick = {() => {
-                  changeDetail && onSubmit();
-                 setChangeDetail((prevState) => !prevState)
-                }}
-                className={"text-blue-600 hover:text-blue-800 transition duration-200 ease-in-out cursor-pointer"}>
-                  {changeDetail ? "Aplicar" : "Editar nome"}
-                </span>
-              </p>
-              <p
-                onClick={onLogout}
-                className="text-red-600 hover:text-red-700 transition ease-in-out duration-200 ml-1 cursor-pointer">
-                Sair
-              </p>
             </div>
           </form>
           <button type="submit" 
           className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
-            <Link to ="/profile-admin">
-              Entrar como Administrador
-            </Link>
-          </button>
-          <button type="submit" 
-          className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
-            <Link to ="/profile-doc">
-              Entre como Documentador
-            </Link>
-          </button>
-          <button type="submit" 
-          className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
-            <Link to ="/profile-test">
-              Entre como Testador
-            </Link>
-          </button>
-          <button type="submit" 
-          className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
-            <Link to ="/profile-dev">
-              Entre como Desenvolvedor
+            <Link to ="/create-listing-dev">
+              Iniciar uma nova narrativa com seus cenários
             </Link>
           </button>
         </div>
       </section>
+      <div className="max-w-6xl px-3 mt-6 mx-auto">
+        {!loading && listings.length > 0 && (
+          <>
+            <h2 className="text-2xl text-center font-semibold mb-6">
+              Meus Dados
+            </h2>
+            <ul className="sm:grid grid-cols-2 lg:grid-cols-3 ">
+              {listings.map((listing) => (
+                <><ListingItemDev
+                    key={listing.id}
+                    id={listing.id}
+                    listing={listing.data}
+                    onDelete={() => onDelete(listing.id)}
+                    onEdit={() => onEdit(listing.id)} />
+                  </>
+              ))}
+            </ul>
+
+          </>
+        )}
+      </div>
     </>
   );
 }

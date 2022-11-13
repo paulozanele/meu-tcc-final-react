@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import Spinner from "../components/Spinner";
 import { toast } from "react-toastify";
 import {
@@ -7,30 +7,70 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
+
+import {
+    addDoc,
+    collection,
+    doc,
+    getDoc,
+    serverTimestamp,
+    updateDoc,
+  } from "firebase/firestore";
+
 import { getAuth } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+
 import { db } from "../firebase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 export default function CreateListingDoc() {
   const navigate = useNavigate();
   const auth = getAuth();
+  const params = useParams();
+  const [listing, setListing] = useState(null);
+
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState ({
-    nivelDeAcesso: "documentador",
-    tituloDocTestes: "",
-    docTestes:"",
+    nivelDeAcesso: "desenvolvedor",
+    tituloNarrativa:"",
+    narrativa:"",
+    cenarios:"",
     obsDoc:"",
     images: {},
   });
-  const { 
+  const {
     nivelDeAcesso,
-    obsDoc,
-    tituloDocTestes,
-    docTestes, 
+    tituloNarrativa,
+    narrativa,
+    cenarios,
+    obsDoc, 
     images,} = formData;
+    
+    useEffect(() => {
+    if (listing && listing.userRef !== auth.currentUser.uid) {
+      toast.error("You can't edit this listing");
+      navigate("/");
+    }
+    }, [auth.currentUser.uid, listing, navigate]);
+
+    useEffect(() => {
+        setLoading(true);
+        async function fetchListing() {
+          const docRef = doc(db, "listingsDev", params.listingId);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            setListing(docSnap.data());
+            setFormData({ ...docSnap.data() });
+            setLoading(false);
+          } else {
+            navigate("/");
+            toast.error("Listing does not exist");
+          }
+        }
+        fetchListing();
+      }, [navigate, params.listingId]);
+
   
   function onChange(e) {
     let boolean = null;
@@ -59,12 +99,12 @@ export default function CreateListingDoc() {
     e.preventDefault();
     setLoading(true);
     
-    async function storeImage(application) {
+    async function storeImage(image) {
       return new Promise((resolve, reject) => {
         const storage = getStorage();
-        const filename = `${auth.currentUser.uid}-${application.name}-${uuidv4()}`;
+        const filename = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
         const storageRef = ref(storage, filename);
-        const uploadTask = uploadBytesResumable(storageRef, application);
+        const uploadTask = uploadBytesResumable(storageRef, image);
         uploadTask.on(
           "state_changed",
           (snapshot) => {
@@ -98,11 +138,10 @@ export default function CreateListingDoc() {
     }
 
     const imgUrls = await Promise.all(
-      [...images].map((application) => storeImage(application))
-      
+      [...images].map((image) => storeImage(image))
     ).catch((error) => {
       setLoading(false);
-      toast.error("Sem arquivos para subir");
+      toast.error("Images not uploaded");
       return;
     });
 
@@ -111,14 +150,18 @@ export default function CreateListingDoc() {
       imgUrls,
       timestamp: serverTimestamp(),
       userRef: auth.currentUser.uid,
-      userEmail: auth.currentUser.email,
     };
     delete formDataCopy.images;
-    const docRef = await addDoc(collection(db, "listingsDoc"), formDataCopy);
+    !formDataCopy.offer && delete formDataCopy.discountedPrice;
+    delete formDataCopy.latitude;
+    delete formDataCopy.longitude;
+    const docRef = doc(db, "listingsDev", params.listingId);
+
+    await updateDoc(docRef, formDataCopy);
     setLoading(false);
-    toast.success("Criado com sucesso");
-    navigate("/profile-doc");
-    //navigate(`/category/${formDataCopy.nivelDeAcesso}/${docRef.id}`);
+    toast.success("Editado com sucesso");
+    navigate("/profile-dev");
+    //navigate(`/category/${formDataCopy.type}/${docRef.id}`);
   }
 
   if (loading) {
@@ -127,26 +170,38 @@ export default function CreateListingDoc() {
   return (
     <main className='max-w-md px-2 mx-auto'>
       <h1 className='text-3xl text-center mt-6
-      font-bold'> Nova documentação referente ao teste </h1>
+      font-bold'> Nova narrativa </h1>
 
       <form onSubmit={onSubmit} >
 
-        <p className='text-lg mt-6 font-semibold'>Título referente a documentação</p>
+        <p className='text-lg mt-6 font-semibold'>Título nova narrativa</p>
         <div className=''>
-          <input type='text' id="tituloDocTestes" value={tituloDocTestes} onChange={onChange}
-          placeholder="Título" maxLength="32" minLength="10" required className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6'/>
+          <input type='text' id="tituloNarrativa" value={tituloNarrativa} onChange={onChange}
+          placeholder="Título do cenário" maxLength="32" minLength="10" required className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6'/>
         </div>
 
 
-        <p className="text-lg font-semibold">Descrição</p>
+        <p className="text-lg font-semibold">Narrativa</p>
         <textarea
           type="text"
-          id="docTestes"
-          value={docTestes}
+          id="narrativa"
+          value={narrativa}
           onChange={onChange}
-          placeholder="Aqui a linguagem mais técnica dos testadores, recebidas por meio dos testes das narrativas e cenários. São transcritas de formas mais clara de entender, para fazer parte da documentação final referente aos testes"
+          placeholder="Como, Quero, Para que"
           required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
+        />
+
+        
+        <p className="text-lg font-semibold">Cenários</p>
+        <textarea
+          type="text"
+          id="cenarios"
+          value={cenarios}
+          onChange={onChange}
+          placeholder="Dado, Quando, Então"
+          required
+          className="w-full px-4 py-7 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
     
         <p className="text-lg font-semibold">Observações importantes</p>
@@ -155,7 +210,7 @@ export default function CreateListingDoc() {
           id="obsDoc"
           value={obsDoc}
           onChange={onChange}
-          placeholder="Observações importantes sobre a realização da documentação"
+          placeholder="Observações importantes sobre as narrativas e cenários"
           required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />

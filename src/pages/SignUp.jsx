@@ -42,6 +42,7 @@ export default function SignUp() {
 
       updateProfile(auth.currentUser, {
         displayName: name,
+        displayEmail: email,
       });
       const user = userCredential.user;
       const formDataCopy = { ...formData };
@@ -49,6 +50,8 @@ export default function SignUp() {
       formDataCopy.timestamp = serverTimestamp();
 
       await setDoc(doc(db, "users", user.uid), formDataCopy);
+    
+      
       auth.signOut();
       navigate("/sign-in");
       toast.success("Cadastro realizado com sucesso");
