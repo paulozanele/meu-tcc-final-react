@@ -45,51 +45,60 @@ export default function Listing() {
             <span className="font-semibold">Descrição - </span>
             {listing.descricaoProjeto}
           </p>
-          <li className="flex items-center whitespace-nowrap">
+          <p className="mt-3 mb-3">
                 <span className="font-semibold">Plano de testes - </span>
                 {listing.planoDeTestes ? "Sim" : "Não"}
-            </li>
-            <li className="flex items-center whitespace-nowrap">
+          </p>
+          <p className="mt-3 mb-3">
                 <span className="font-semibold">Especificação do projeto - </span>
                 {listing.especDoProjetoDeTeste ? "Sim" : "Nao"}
-            </li>
-            <li className="flex items-center whitespace-nowrap">
+            </p>
+            <p className="mt-3 mb-3">
                 <span className="font-semibold">Especificação dos casos de testes - </span>
                 {listing.especCasosDeTeste ? "Sim" : "Nao"}
-            </li>
-            <li className="flex items-center whitespace-nowrap">
+            </p>
+            <p className="mt-3 mb-3">
                 <span className="font-semibold">Especificação de procedimentos de testes - </span>
                 {listing.especDeProcedimentoDeTeste ? "Sim" : "Nao"}
-            </li>
-            <li className="flex items-center whitespace-nowrap">
+            </p>
+            <p className="mt-3 mb-3">
                 <span className="font-semibold">Relatórios do status de testes - </span>
                 {listing.relatoStatusDeTeste ? "Sim" : "Nao"}
-            </li>
-            <li className="flex items-center whitespace-nowrap">
+            </p>
+            <p className="mt-3 mb-3">
                 <span className="font-semibold">Logs de testes - </span>
                 {listing.logDeTeste ? "Sim" : "Nao"}
-            </li>
-            <li className="flex items-center whitespace-nowrap">
+            </p>
+            <p className="mt-3 mb-3">
                 <span className="font-semibold">Relatórios incidentes de testes - </span>
                 {listing.relatoIncidenteDeTestes ? "Sim" : "Nao"}
-            </li>
-            <li className="flex items-center whitespace-nowrap">
+            </p>
+            <p className="mt-3 mb-3">
                 <span className="font-semibold">Relatórios súmarios de testes - </span>
                 {listing.relatoSumarioDeTestes ? "Sim" : "Nao"}  
-            </li>
-            <li className="flex items-center whitespace-nowrap">
+            </p>
+            <p className="mt-3 mb-3">
                 <span className="font-semibold"> Narrativas e cenários - </span>
                 {listing.historiaCenarios  ? "Sim" : "Nao"}
-            </li>
-            <li className="flex items-center whitespace-nowrap">
-                <span className="font-semibold"> Documentações- </span>
+            </p>
+            <p className="mt-3 mb-3">
+                <span className="font-semibold"> Documentações - </span>
                 {listing.documentacao  ? "Sim" : "Nao"}
-            </li>
-            <li className="flex items-center whitespace-nowrap">
-                <span className="font-semibold"> Responsável- </span>
+            </p>
+            <p className="mt-3 mb-3">
+                <span className="font-semibold"> Responsável - </span>
                 {listing.userEmail}
-            </li>       
+            </p>       
+            <p className="mt-3 mb-3">
+              <span className="font-semibold">Links dos Arquivos - </span>
+            </p> 
+            {listing.imgUrls.map((url, index) => (
+            <div className="relative w-full overflow-hidden h-[75px]">
+            {listing.imgUrls[index]}
+            </div>
+            ))}
         </div>
+
       </div>
     </main>
   );

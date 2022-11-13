@@ -77,12 +77,12 @@ export default function CreateListing() {
     e.preventDefault();
     setLoading(true);
     
-    async function storeImage(application) {
+    async function storeImage(image) {
       return new Promise((resolve, reject) => {
         const storage = getStorage();
-        const filename = `${auth.currentUser.uid}-${application.name}-${uuidv4()}`;
+        const filename = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
         const storageRef = ref(storage, filename);
-        const uploadTask = uploadBytesResumable(storageRef, application);
+        const uploadTask = uploadBytesResumable(storageRef, image);
         uploadTask.on(
           "state_changed",
           (snapshot) => {
@@ -116,7 +116,7 @@ export default function CreateListing() {
     }
 
     const imgUrls = await Promise.all(
-      [...images].map((application) => storeImage(application))
+      [...images].map((image) => storeImage(image))
       
     ).catch((error) => {
       setLoading(false);

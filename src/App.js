@@ -10,10 +10,8 @@ import CreateListingDoc from "./pages/CreateListingDoc";
 import ListingDoc from "./pages/ListingDoc";
 import ProfileDoc from "./pages/ProfileDoc";
 import EditListingDoc from "./pages/EditListingDoc";
-import ListingDev from "./pages/ListingDev";
 
-
-import ProfileTestador from "./pages/ProfileTestador";
+import ProfileTest from "./pages/ProfileTest";
 import ListingTest from "./pages/ListingTest";
 import EditListingTest from "./pages/EditListingTest";
 import CreateListingTest from "./pages/CreateListingTest";
@@ -21,8 +19,7 @@ import CreateListingTest from "./pages/CreateListingTest";
 import ProfileDev from "./pages/ProfileDev";
 import CreateListingDev from "./pages/CreateListingDev";
 import EditListingDev from "./pages/EditListingDev"
-
-
+import ListingDev from "./pages/ListingDev";
 
 import ProfileAdmin from "./pages/ProfileAdmin";
 import CreateListing from "./pages/CreateListing";
@@ -70,7 +67,7 @@ function App() {
             <Route path="/profile-admin" element={<ProfileAdmin />} />
           </Route>
           <Route path="profile-test" element={<PrivateRoute/>}>
-            <Route path="/profile-test" element={<ProfileTestador />} />
+            <Route path="/profile-test" element={<ProfileTest />} />
           </Route> 
           <Route path="profile-doc" element={<PrivateRoute/>}>
             <Route path="/profile-doc" element={<ProfileDoc />} />
@@ -79,7 +76,7 @@ function App() {
 
           <Route path="/admin/:listingId" element={<Listing/>} />
           <Route path="/dev/:listingId" element={<ListingDev/>}/>
-          <Route path="/test/:listingId" element={<ListingTest/>} />
+          <Route path="/test/:listingId" element={<ListingTest/>}/>
           <Route path="/doc/:listingId" element={<ListingDoc/>}/>
     
           

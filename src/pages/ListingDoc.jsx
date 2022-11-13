@@ -47,10 +47,18 @@ export default function ListingDoc() {
             <span className="font-semibold">Observações importantes - </span>
             {listing.obsDoc}
           </p>
-          <li className="flex items-center whitespace-nowrap">
-                <span className="font-semibold"> Responsável- </span>
-                {listing.userEmail}
-          </li> 
+          <p className="mt-3 mb-3">
+            <span className="font-semibold"> Responsável - </span>
+             {listing.userEmail}
+          </p>
+          <p className="mt-3 mb-3">
+              <span className="font-semibold">Links dos Arquivos - </span>
+          </p> 
+          {listing.imgUrls.map((url, index) => (
+          <div className="relative w-full overflow-hidden h-[75px]">
+            {listing.imgUrls[index]}
+          </div>
+          ))}
         </div>
       </div>
     </main>

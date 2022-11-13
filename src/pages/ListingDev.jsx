@@ -7,7 +7,7 @@ import { db } from "../firebase";
 import { getAuth } from "firebase/auth";
 
 
-export default function ListingDoc() {
+export default function ListingDev() {
   
   const auth = getAuth();
   const params = useParams();
@@ -37,24 +37,31 @@ export default function ListingDoc() {
         <p className="text-2xl font-bold mb-3 text-blue-900">
         {listing.tituloNarrativa}
         </p>
-        <div className="flex justify-start items-center space-x-4 w-[75%]">
-        </div>
+        <div className="flex justify-start items-center space-x-4 w-[75%]"></div>
         <p className="mt-3 mb-3">
-          <span className="font-semibold">Narrativa- </span>
+          <span className="font-semibold">Narrativa - </span>
          {listing.narrativa}
         </p>
         <p className="mt-3 mb-3">
-          <span className="font-semibold">Cenários- </span>
+          <span className="font-semibold">Cenários - </span>
          {listing.cenarios}
         </p>
         <p className="mt-3 mb-3">
           <span className="font-semibold">Observações importantes - </span>
           {listing.obsDoc}
         </p>
-        <li className="flex items-center whitespace-nowrap">
-          <span className="font-semibold"> Responsável- </span>
+        <p className="mt-3 mb-3">
+          <span className="font-semibold"> Responsável - </span>
           {listing.userEmail}
-        </li> 
+        </p>  
+        <p className="mt-3 mb-3">
+          <span className="font-semibold">Links dos Arquivos - </span>
+        </p>   
+        {listing.imgUrls.map((url, index) => (
+        <div className="relative w-full overflow-hidden h-[75px]">
+        {listing.imgUrls[index]}
+        </div>
+        ))}
       </div>
     </div>
   </main>

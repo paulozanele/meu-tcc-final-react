@@ -14,9 +14,9 @@ import {
   where,
   deleteDoc,
 } from "firebase/firestore";
-import ListingItemTest from "../components/ListingItemDoc";
+import ListingItemTest from "../components/ListingItemTest";
 
-export default function ProfileTestador() {
+export default function ProfileTest() {
   const auth = getAuth();
   const navigate = useNavigate();
   const [changeDetail, setChangeDetail] = useState(false);
@@ -157,7 +157,6 @@ export default function ProfileTestador() {
                   </>
               ))}
             </ul>
-
           </>
         )}
       </div>

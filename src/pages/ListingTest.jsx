@@ -44,10 +44,6 @@ export default function ListingTest() {
            {listing.docTestes}
           </p>
           <p className="mt-3 mb-3">
-            <span className="font-semibold">Observações importantes - </span>
-            {listing.obsDoc}
-          </p>
-          <p className="mt-3 mb-3">
             <span className="font-semibold">Relatório status do teste - </span>
             {listing.relatoStatusDeTeste}
           </p>
@@ -63,10 +59,22 @@ export default function ListingTest() {
             <span className="font-semibold">Relatório sumário do teste - </span>
             {listing.relatoSumarioDeTestes}
           </p>
-          <li className="flex items-center whitespace-nowrap">
-                <span className="font-semibold"> Responsável- </span>
-                {listing.userEmail}
-          </li> 
+          <p className="mt-3 mb-3">
+            <span className="font-semibold"> Responsável - </span>
+            {listing.userEmail}
+          </p>
+          <p className="mt-3 mb-3">
+            <span className="font-semibold">Observações importantes - </span>
+            {listing.obsDoc}
+          </p> 
+          <p className="mt-3 mb-3">
+            <span className="font-semibold">Links dos Arquivos - </span>
+          </p> 
+            {listing.imgUrls.map((url, index) => (
+            <div className="relative w-full overflow-hidden h-[75px]">
+            {listing.imgUrls[index]}
+            </div>
+          ))}
         </div>
       </div>
     </main>
