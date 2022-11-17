@@ -15,7 +15,7 @@ export default function Header() {
   useEffect(() => {
     onAuthStateChanged(auth, (user)=>{
       if (user){
-        setPageState("Meu Perfil");
+        setPageState("Perfis");
         setPageState1("");
       } else {
         setPageState("Entrar");
@@ -38,7 +38,7 @@ export default function Header() {
       <header className='flex justify-between items-center
       px-3 max-w-6xl mx-auto'>
         <div>
-        <img src="/images/logoHeader.png" alt="logoHeader" 
+        <img src="/images/logoHeaderTeste.png" alt="logoHeaderTeste" 
         className='cursor-pointer' />
         </div>
         <div>
@@ -47,7 +47,7 @@ export default function Header() {
             className={`cursor-pointer py-3 text-sm font-semibold text-gray-400 border-b-[3px] border-b-transparent 
             ${ pathMatchRoute("/") && "text-black border-b-blue-500"}`}
             onClick={()=>navigate("/")}>
-              Inicio
+              Visualizar
           </li>
 
           <li

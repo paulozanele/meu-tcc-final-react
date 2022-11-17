@@ -127,6 +127,11 @@ export default function CreateListingDoc() {
   if (loading) {
     return <Spinner />;
   }
+
+   //criar uma query 
+    //se o campo historiaCenarios da collection listings for true, liberar o formulário abaixo
+    //senão não mostrar nenhum campo
+
   return (
     <main className='max-w-md px-2 mx-auto'>
       <h1 className='text-3xl text-center mt-6

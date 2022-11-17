@@ -27,9 +27,9 @@ export default function CreateListingDoc() {
   });
   const { 
     nivelDeAcesso,
-    obsDoc,
     tituloDocTestes,
     docTestes, 
+    obsDoc,
     images,} = formData;
   
   function onChange(e) {
@@ -124,6 +124,11 @@ export default function CreateListingDoc() {
   if (loading) {
     return <Spinner />;
   }
+
+    //criar uma query 
+    //se o campo documentação da collection listings for true, liberar o formulário abaixo
+    //senão não mostrar nenhum campo
+
   return (
     <main className='max-w-md px-2 mx-auto'>
       <h1 className='text-3xl text-center mt-6
