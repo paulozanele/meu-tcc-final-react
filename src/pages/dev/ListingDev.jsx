@@ -2,9 +2,9 @@ import { doc, getDoc } from "firebase/firestore";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Spinner from "../components/Spinner";
-import { db } from "../firebase";
 import { getAuth } from "firebase/auth";
+import Spinner from "../../components/Spinner";
+import { db } from "../../firebase";
 
 
 export default function ListingDev() {
@@ -13,7 +13,6 @@ export default function ListingDev() {
   const params = useParams();
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [contactLandlord, setContactLandlord] = useState(false);
 
   useEffect(() => {
     async function fetchListing() {

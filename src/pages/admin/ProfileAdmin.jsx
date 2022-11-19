@@ -2,7 +2,7 @@ import { getAuth, updateProfile } from "firebase/auth";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 import { useEffect } from "react";
 import {
   collection,
@@ -14,9 +14,9 @@ import {
   where,
   deleteDoc,
 } from "firebase/firestore";
-import ListingItemDev from "../components/ListingItemDev";
+import ListingItem from "../../components/ListingItem";
 
-export default function ProfileDev() {
+export default function ProfileAdmin() {
   const auth = getAuth();
   const navigate = useNavigate();
   const [changeDetail, setChangeDetail] = useState(false);
@@ -65,7 +65,7 @@ export default function ProfileDev() {
 
   useEffect(() => {
     async function fetchUserListings() {
-      const listingRef = collection(db, "listingsDev");
+      const listingRef = collection(db, "listings");
       const q = query(
         listingRef,
         where("userRef", "==", auth.currentUser.uid),
@@ -87,7 +87,7 @@ export default function ProfileDev() {
 
   async function onDelete(listingID) {
     if (window.confirm("Tem certeza que deseja deletar?")) {
-      await deleteDoc(doc(db, "listingsDev", listingID));
+      await deleteDoc(doc(db, "listings", listingID));
       const updatedListings = listings.filter(
         (listing) => listing.id !== listingID
       );
@@ -96,20 +96,20 @@ export default function ProfileDev() {
     }
   }
   function onEdit(listingID) {
-    navigate(`/edit-listing-dev/${listingID}`);
+    navigate(`/edit-listing/${listingID}`);
   }
 
 
   return (
     <>
       <section className="max-w-6xl mx-auto flex justify-center items-center flex-col">
-        <h1 className="text-3xl text-center mt-6 font-bold">Perfil Desenvolvedor</h1>
+        <h1 className="text-3xl text-center mt-6 font-bold">Perfil Administrador</h1>
         <div className="w-full md:w-[50%] mt-6 px-3">
-          
+   
           <button type="submit" 
           className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
-            <Link to ="/create-listing-dev">
-              Iniciar uma nova narrativa com seus cenários
+            <Link to ="/create-listing">
+              Iniciar um novo projeto
             </Link>
           </button>
         </div>
@@ -122,7 +122,7 @@ export default function ProfileDev() {
             </h2>
             <ul className="sm:grid grid-cols-2 lg:grid-cols-3 ">
               {listings.map((listing) => (
-                <><ListingItemDev
+                <><ListingItem
                     key={listing.id}
                     id={listing.id}
                     listing={listing.data}
@@ -131,7 +131,6 @@ export default function ProfileDev() {
                   </>
               ))}
             </ul>
-
           </>
         )}
       </div>

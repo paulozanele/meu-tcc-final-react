@@ -112,11 +112,11 @@ export default function Profile() {
           </button>
           <button type="submit" 
           className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
-            <Link to ="/profile-doc">
-              Entre como Documentador
+            <Link to ="/profile-dev">
+              Entre como Desenvolvedor
             </Link>
           </button>
-          <button type="submit" 
+                    <button type="submit" 
           className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
             <Link to ="/profile-test">
               Entre como Testador
@@ -124,14 +124,14 @@ export default function Profile() {
           </button>
           <button type="submit" 
           className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
-            <Link to ="/profile-dev">
-              Entre como Desenvolvedor
+            <Link to ="/profile-doc">
+              Entre como Documentador
             </Link>
           </button>
           <div className=" font-medium mb-6 mt-5">
             <p 
               onClick={onLogout}
-              className="  flex items-center  text-red-600 hover:text-red-700 transition ease-in-out duration-200 ml-1 cursor-pointer">
+              className="  text-2xl flex items-center  text-red-600 hover:text-red-700 transition ease-in-out duration-200 ml-1 cursor-pointer">
               Sair
             </p>
           </div>

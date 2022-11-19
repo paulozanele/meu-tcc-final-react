@@ -1,5 +1,5 @@
-import { useState, useEffect} from "react";
-import Spinner from "../components/Spinner";
+import { useState } from "react";
+import Spinner from "../../components/Spinner";
 import { toast } from "react-toastify";
 import {
   getStorage,
@@ -7,29 +7,16 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-
-import {
-    addDoc,
-    collection,
-    doc,
-    getDoc,
-    serverTimestamp,
-    updateDoc,
-  } from "firebase/firestore";
-
 import { getAuth } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid";
-
-import { db } from "../firebase";
-import { useNavigate, useParams } from "react-router-dom";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "../../firebase";
+import { useNavigate } from "react-router-dom";
 
 
 export default function CreateListingDoc() {
   const navigate = useNavigate();
   const auth = getAuth();
-  const params = useParams();
-  const [listing, setListing] = useState(null);
-
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState ({
     nivelDeAcesso: "documentador",
@@ -38,37 +25,12 @@ export default function CreateListingDoc() {
     obsDoc:"",
     images: {},
   });
-  const {
+  const { 
     nivelDeAcesso,
-    obsDoc,
     tituloDocTestes,
     docTestes, 
+    obsDoc,
     images,} = formData;
-    
-    useEffect(() => {
-    if (listing && listing.userRef !== auth.currentUser.uid) {
-      toast.error("You can't edit this listing");
-      navigate("/");
-    }
-    }, [auth.currentUser.uid, listing, navigate]);
-
-    useEffect(() => {
-        setLoading(true);
-        async function fetchListing() {
-          const docRef = doc(db, "listingsDoc", params.listingId);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            setListing(docSnap.data());
-            setFormData({ ...docSnap.data() });
-            setLoading(false);
-          } else {
-            navigate("/");
-            toast.error("Listing does not exist");
-          }
-        }
-        fetchListing();
-      }, [navigate, params.listingId]);
-
   
   function onChange(e) {
     let boolean = null;
@@ -97,12 +59,12 @@ export default function CreateListingDoc() {
     e.preventDefault();
     setLoading(true);
     
-    async function storeImage(image) {
+    async function storeImage(application) {
       return new Promise((resolve, reject) => {
         const storage = getStorage();
-        const filename = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
+        const filename = `${auth.currentUser.uid}-${application.name}-${uuidv4()}`;
         const storageRef = ref(storage, filename);
-        const uploadTask = uploadBytesResumable(storageRef, image);
+        const uploadTask = uploadBytesResumable(storageRef, application);
         uploadTask.on(
           "state_changed",
           (snapshot) => {
@@ -136,10 +98,11 @@ export default function CreateListingDoc() {
     }
 
     const imgUrls = await Promise.all(
-      [...images].map((image) => storeImage(image))
+      [...images].map((application) => storeImage(application))
+      
     ).catch((error) => {
       setLoading(false);
-      toast.error("Images not uploaded");
+      toast.error("Sem arquivos para subir");
       return;
     });
 
@@ -148,27 +111,28 @@ export default function CreateListingDoc() {
       imgUrls,
       timestamp: serverTimestamp(),
       userRef: auth.currentUser.uid,
+      userEmail: auth.currentUser.email,
     };
     delete formDataCopy.images;
-    !formDataCopy.offer && delete formDataCopy.discountedPrice;
-    delete formDataCopy.latitude;
-    delete formDataCopy.longitude;
-    const docRef = doc(db, "listingsDoc", params.listingId);
-
-    await updateDoc(docRef, formDataCopy);
+    const docRef = await addDoc(collection(db, "listingsDoc"), formDataCopy);
     setLoading(false);
-    toast.success("Editado com sucesso");
+    toast.success("Criado com sucesso");
     navigate("/profile-doc");
-    //navigate(`/category/${formDataCopy.type}/${docRef.id}`);
+    //navigate(`/category/${formDataCopy.nivelDeAcesso}/${docRef.id}`);
   }
 
   if (loading) {
     return <Spinner />;
   }
+
+    //criar uma query 
+    //se o campo documentação da collection listings for true, liberar o formulário abaixo
+    //senão não mostrar nenhum campo
+
   return (
     <main className='max-w-md px-2 mx-auto'>
       <h1 className='text-3xl text-center mt-6
-      font-bold'> Editar a documentação referente ao teste </h1>
+      font-bold'> Nova documentação referente ao teste </h1>
 
       <form onSubmit={onSubmit} >
 
@@ -214,7 +178,7 @@ export default function CreateListingDoc() {
             className="w-full px-3 py-1.5 text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:border-slate-600"
           />
         </div>
-        <button type="submit" className="mb-6 w-full px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Editar
+        <button type="submit" className="mb-6 w-full px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Criar
         </button>
         
         </form>

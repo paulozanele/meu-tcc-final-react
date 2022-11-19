@@ -1,5 +1,6 @@
-import { useState, useEffect} from "react";
-import Spinner from "../components/Spinner";
+import { useState } from "react";
+import Spinner from "../../components/Spinner";
+import { db } from "../../firebase";
 import { toast } from "react-toastify";
 import {
   getStorage,
@@ -7,29 +8,15 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-
-import {
-    addDoc,
-    collection,
-    doc,
-    getDoc,
-    serverTimestamp,
-    updateDoc,
-  } from "firebase/firestore";
-
 import { getAuth } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid";
-
-import { db } from "../firebase";
-import { useNavigate, useParams } from "react-router-dom";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 
 export default function CreateListingDoc() {
   const navigate = useNavigate();
   const auth = getAuth();
-  const params = useParams();
-  const [listing, setListing] = useState(null);
-
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState ({
     nivelDeAcesso: "desenvolvedor",
@@ -39,38 +26,13 @@ export default function CreateListingDoc() {
     obsDoc:"",
     images: {},
   });
-  const {
+  const { 
     nivelDeAcesso,
     tituloNarrativa,
     narrativa,
     cenarios,
     obsDoc, 
     images,} = formData;
-    
-    useEffect(() => {
-    if (listing && listing.userRef !== auth.currentUser.uid) {
-      toast.error("You can't edit this listing");
-      navigate("/");
-    }
-    }, [auth.currentUser.uid, listing, navigate]);
-
-    useEffect(() => {
-        setLoading(true);
-        async function fetchListing() {
-          const docRef = doc(db, "listingsDev", params.listingId);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            setListing(docSnap.data());
-            setFormData({ ...docSnap.data() });
-            setLoading(false);
-          } else {
-            navigate("/");
-            toast.error("Listing does not exist");
-          }
-        }
-        fetchListing();
-      }, [navigate, params.listingId]);
-
   
   function onChange(e) {
     let boolean = null;
@@ -99,12 +61,12 @@ export default function CreateListingDoc() {
     e.preventDefault();
     setLoading(true);
     
-    async function storeImage(image) {
+    async function storeImage(application) {
       return new Promise((resolve, reject) => {
         const storage = getStorage();
-        const filename = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
+        const filename = `${auth.currentUser.uid}-${application.name}-${uuidv4()}`;
         const storageRef = ref(storage, filename);
-        const uploadTask = uploadBytesResumable(storageRef, image);
+        const uploadTask = uploadBytesResumable(storageRef, application);
         uploadTask.on(
           "state_changed",
           (snapshot) => {
@@ -138,10 +100,11 @@ export default function CreateListingDoc() {
     }
 
     const imgUrls = await Promise.all(
-      [...images].map((image) => storeImage(image))
+      [...images].map((application) => storeImage(application))
+      
     ).catch((error) => {
       setLoading(false);
-      toast.error("Images not uploaded");
+      toast.error("Sem arquivos para subir");
       return;
     });
 
@@ -149,24 +112,26 @@ export default function CreateListingDoc() {
       ...formData,
       imgUrls,
       timestamp: serverTimestamp(),
+      userEmail: auth.currentUser.email,
       userRef: auth.currentUser.uid,
     };
     delete formDataCopy.images;
-    !formDataCopy.offer && delete formDataCopy.discountedPrice;
-    delete formDataCopy.latitude;
-    delete formDataCopy.longitude;
-    const docRef = doc(db, "listingsDev", params.listingId);
-
-    await updateDoc(docRef, formDataCopy);
+    const docRef = await addDoc(collection(db, "listingsDev"), formDataCopy);
     setLoading(false);
-    toast.success("Editado com sucesso");
+    toast.success("Criado com sucesso");
+    //navigate("/");
     navigate("/profile-dev");
-    //navigate(`/category/${formDataCopy.type}/${docRef.id}`);
+    //navigate(`/category/${formDataCopy.nivelDeAcesso}/${docRef.id}`);
   }
 
   if (loading) {
     return <Spinner />;
   }
+
+   //criar uma query 
+    //se o campo historiaCenarios da collection listings for true, liberar o formulário abaixo
+    //senão não mostrar nenhum campo
+
   return (
     <main className='max-w-md px-2 mx-auto'>
       <h1 className='text-3xl text-center mt-6
@@ -177,7 +142,7 @@ export default function CreateListingDoc() {
         <p className='text-lg mt-6 font-semibold'>Título nova narrativa</p>
         <div className=''>
           <input type='text' id="tituloNarrativa" value={tituloNarrativa} onChange={onChange}
-          placeholder="Título do cenário" maxLength="32" minLength="10" required className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6'/>
+          placeholder="Título do narrativa" maxLength="32" minLength="10" required className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6'/>
         </div>
 
 
@@ -188,7 +153,7 @@ export default function CreateListingDoc() {
           value={narrativa}
           onChange={onChange}
           placeholder="Como, Quero, Para que"
-          required
+         // required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
 
@@ -200,7 +165,7 @@ export default function CreateListingDoc() {
           value={cenarios}
           onChange={onChange}
           placeholder="Dado, Quando, Então"
-          required
+          //required
           className="w-full px-4 py-7 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
     
@@ -211,7 +176,7 @@ export default function CreateListingDoc() {
           value={obsDoc}
           onChange={onChange}
           placeholder="Observações importantes sobre as narrativas e cenários"
-          required
+          //required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
         <div className="mb-6">
@@ -230,7 +195,6 @@ export default function CreateListingDoc() {
         </div>
         <button type="submit" className="mb-6 w-full px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Criar
         </button>
-        
         </form>
     </main>
   )

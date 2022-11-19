@@ -2,10 +2,10 @@ import { doc, getDoc } from "firebase/firestore";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Spinner from "../components/Spinner";
-import { db } from "../firebase";
+import Spinner from "../../components/Spinner";
+import { db } from "../../firebase";
 import { getAuth } from "firebase/auth";
-import Contact from "../components/Contact";
+
 
 
 export default function Listing() {
@@ -55,7 +55,7 @@ export default function Listing() {
             </p>
             <p className="mt-3 mb-3">
                 <span className="font-semibold">Especificação dos casos de testes - </span>
-                {listing.especCasosDeTeste ? "Sim" : "Nao"}
+                {listing.especDosCasosDeTeste ? "Sim" : "Nao"}
             </p>
             <p className="mt-3 mb-3">
                 <span className="font-semibold">Especificação de procedimentos de testes - </span>

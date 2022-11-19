@@ -1,5 +1,9 @@
 import { useState, useEffect} from "react";
-import Spinner from "../components/Spinner";
+import Spinner from "../../components/Spinner";
+import { getAuth } from "firebase/auth";
+import { v4 as uuidv4 } from "uuid";
+import { db } from "../../firebase";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   getStorage,
@@ -16,13 +20,6 @@ import {
     serverTimestamp,
     updateDoc,
   } from "firebase/firestore";
-
-import { getAuth } from "firebase/auth";
-import { v4 as uuidv4 } from "uuid";
-
-import { db } from "../firebase";
-import { useNavigate, useParams } from "react-router-dom";
-
 
 export default function CreateListing() {
   const navigate = useNavigate();

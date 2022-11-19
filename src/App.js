@@ -6,25 +6,26 @@ import SignUp from "./pages/SignUp";
 import PrivateRoute from "./components/PrivateRoute";
 import ForgotPassword from "./pages/ForgotPassword";
 
-import CreateListingDoc from "./pages/CreateListingDoc";
-import ListingDoc from "./pages/ListingDoc";
-import ProfileDoc from "./pages/ProfileDoc";
-import EditListingDoc from "./pages/EditListingDoc";
+import CreateListingDoc from "./pages/doc/CreateListingDoc";
+import ListingDoc from "./pages/doc/ListingDoc";
+import ProfileDoc from "./pages/doc/ProfileDoc";
+import EditListingDoc from "./pages/doc/EditListingDoc";
 
-import ProfileTest from "./pages/ProfileTest";
-import ListingTest from "./pages/ListingTest";
-import EditListingTest from "./pages/EditListingTest";
-import CreateListingTest from "./pages/CreateListingTest";
+import ProfileTest from "./pages/tester/ProfileTest";
+import ListingTest from "./pages/tester/ListingTest";
+import EditListingTest from "./pages/tester/EditListingTest";
+import CreateListingTest from "./pages/tester/CreateListingTest";
 
-import ProfileDev from "./pages/ProfileDev";
-import CreateListingDev from "./pages/CreateListingDev";
-import EditListingDev from "./pages/EditListingDev"
-import ListingDev from "./pages/ListingDev";
+import ProfileDev from "./pages/dev/ProfileDev";
+import CreateListingDev from "./pages/dev/CreateListingDev";
+import EditListingDev from "./pages/dev/EditListingDev"
+import ListingDev from "./pages/dev/ListingDev";
 
-import ProfileAdmin from "./pages/ProfileAdmin";
-import CreateListing from "./pages/CreateListing";
-import EditListing from "./pages/EditListing";
-import Listing from "./pages/Listing";
+import ProfileAdmin from "./pages/admin/ProfileAdmin";
+import CreateListing from "./pages/admin/CreateListing";
+import EditListing from "./pages/admin/EditListing";
+import Listing from "./pages/admin/Listing";
+
 
 import Header from "./components/Header";
 import { ToastContainer } from "react-toastify";

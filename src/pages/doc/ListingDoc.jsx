@@ -2,12 +2,12 @@ import { doc, getDoc } from "firebase/firestore";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Spinner from "../components/Spinner";
-import { db } from "../firebase";
+import Spinner from "../../components/Spinner";
+import { db } from "../../firebase";
 import { getAuth } from "firebase/auth";
 
 
-export default function ListingTest() {
+export default function ListingDoc() {
   
   const auth = getAuth();
   const params = useParams();
@@ -17,7 +17,7 @@ export default function ListingTest() {
 
   useEffect(() => {
     async function fetchListing() {
-      const docRef = doc(db,"listingsTest", params.listingId);
+      const docRef = doc(db,"listingsDoc", params.listingId);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         setListing(docSnap.data());
@@ -44,36 +44,20 @@ export default function ListingTest() {
            {listing.docTestes}
           </p>
           <p className="mt-3 mb-3">
-            <span className="font-semibold">Relatório status do teste - </span>
-            {listing.relatoStatusDeTeste}
-          </p>
-          <p className="mt-3 mb-3">
-            <span className="font-semibold">Log do teste - </span>
-            {listing.logDeTeste}
-          </p>
-          <p className="mt-3 mb-3">
-            <span className="font-semibold">Relatório de incidente do teste - </span>
-            {listing.relatoIncidenteDeTestes}
-          </p>
-          <p className="mt-3 mb-3">
-            <span className="font-semibold">Relatório sumário do teste - </span>
-            {listing.relatoSumarioDeTestes}
+            <span className="font-semibold">Observações importantes - </span>
+            {listing.obsDoc}
           </p>
           <p className="mt-3 mb-3">
             <span className="font-semibold"> Responsável - </span>
-            {listing.userEmail}
+             {listing.userEmail}
           </p>
           <p className="mt-3 mb-3">
-            <span className="font-semibold">Observações importantes - </span>
-            {listing.obsDoc}
+              <span className="font-semibold">Links dos Arquivos - </span>
           </p> 
-          <p className="mt-3 mb-3">
-            <span className="font-semibold">Links dos Arquivos - </span>
-          </p> 
-            {listing.imgUrls.map((url, index) => (
-            <div className="relative w-full overflow-hidden h-[75px]">
+          {listing.imgUrls.map((url, index) => (
+          <div className="relative w-full overflow-hidden h-[75px]">
             {listing.imgUrls[index]}
-            </div>
+          </div>
           ))}
         </div>
       </div>

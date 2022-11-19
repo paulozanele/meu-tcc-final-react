@@ -2,7 +2,7 @@ import { getAuth, updateProfile } from "firebase/auth";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 import { useEffect } from "react";
 import {
   collection,
@@ -14,18 +14,19 @@ import {
   where,
   deleteDoc,
 } from "firebase/firestore";
-import ListingItemDoc from "../components/ListingItemDoc";
+import ListingItemDev from "../../components/ListingItemDev";
 
-export default function ProfileDoc() {
+export default function ProfileDev() {
   const auth = getAuth();
   const navigate = useNavigate();
-  const [changeDetail, setChangeDetail] = useState(false);
   const [formData, setFormData] = useState({
     name: auth.currentUser.displayName,
     email: auth.currentUser.email,
   });
   const { name, email } = formData;
   const [listings, setListings] = useState(null);
+  const [listingsHistory, setListingsHistory] = useState(null);
+  const [hasHistoryListing, setHasHistoryListing] = useState(false);
   const [loading, setLoading] = useState(true);
 
   function onChange(e) {
@@ -64,10 +65,10 @@ export default function ProfileDoc() {
   }
 
   useEffect(() => {
-    async function fetchUserListings() {
-      const listingRef = collection(db, "listingsDoc");
+    async function fetchUserListings1() {
+      const listingRef2 = collection(db, "listingsDev");
       const q = query(
-        listingRef,
+        listingRef2,
         where("userRef", "==", auth.currentUser.uid),
       );
       const querySnap = await getDocs(q);
@@ -81,13 +82,32 @@ export default function ProfileDoc() {
       setListings(listings);
       setLoading(false);
     }
+    fetchUserListings1();
+
+    async function fetchUserListings() {
+      const listingRef = collection(db, "listings");
+      const q = query(
+        listingRef,
+        where("userRef", "==", auth.currentUser.uid),
+      );
+      const querySnap = await getDocs(q);
+      let listingsHistory = [];
+      querySnap.forEach((doc) => {
+        return listingsHistory.push({
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
+      setHasHistoryListing(listingsHistory.find((doc) => !!doc.historiaCenarios))
+      setListingsHistory(listingsHistory);
+    }
     fetchUserListings();
   }, [auth.currentUser.uid]);
 
 
   async function onDelete(listingID) {
     if (window.confirm("Tem certeza que deseja deletar?")) {
-      await deleteDoc(doc(db, "listingsDoc", listingID));
+      await deleteDoc(doc(db, "listingsDev", listingID));
       const updatedListings = listings.filter(
         (listing) => listing.id !== listingID
       );
@@ -96,22 +116,27 @@ export default function ProfileDoc() {
     }
   }
   function onEdit(listingID) {
-    navigate(`/edit-listing-doc/${listingID}`);
+    navigate(`/edit-listing-dev/${listingID}`);
   }
 
 
+  //PEGAR A COLLECTION LISTING (PROJETO) VERIFICAR O CAMPO HISTORIAS E CENARIOS SE FOR TRUE MOSTRA O BOTÃO
+  //SE FOR FALSO MOSTRAR QUE NENHUM DOCUMENTO FOI SELECIONADO NA CRIAÇAO DO PROJETO
+
+  
   return (
     <>
       <section className="max-w-6xl mx-auto flex justify-center items-center flex-col">
-        <h1 className="text-3xl text-center mt-6 font-bold">Perfil Documentador</h1>
-        <div className="w-full md:w-[50%] mt-6 px-3">
+        <h1 className="text-3xl text-center mt-6 font-bold">Perfil Desenvolvedor</h1>
+        <h2 className="text-2xl text-center mt-6 font-bold">Documento a ser definido:</h2>
+        {hasHistoryListing && <div className="w-full md:w-[50%] mt-6 px-3">
           <button type="submit" 
           className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
-            <Link to ="/create-listing-doc">
-              Iniciar um novo documento
+            <Link to ="/create-listing-dev">
+              Iniciar uma nova narrativa com seus cenários
             </Link>
           </button>
-        </div>
+        </div>}
       </section>
       <div className="max-w-6xl px-3 mt-6 mx-auto">
         {!loading && listings.length > 0 && (
@@ -121,7 +146,7 @@ export default function ProfileDoc() {
             </h2>
             <ul className="sm:grid grid-cols-2 lg:grid-cols-3 ">
               {listings.map((listing) => (
-                <><ListingItemDoc
+                <><ListingItemDev
                     key={listing.id}
                     id={listing.id}
                     listing={listing.data}
@@ -130,6 +155,7 @@ export default function ProfileDoc() {
                   </>
               ))}
             </ul>
+
           </>
         )}
       </div>

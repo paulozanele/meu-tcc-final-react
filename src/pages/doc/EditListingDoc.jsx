@@ -1,5 +1,5 @@
-import { useState } from "react";
-import Spinner from "../components/Spinner";
+import { useState, useEffect} from "react";
+import Spinner from "../../components/Spinner";
 import { toast } from "react-toastify";
 import {
   getStorage,
@@ -7,32 +7,68 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
+
+import {
+    addDoc,
+    collection,
+    doc,
+    getDoc,
+    serverTimestamp,
+    updateDoc,
+  } from "firebase/firestore";
+
 import { getAuth } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { db } from "../firebase";
-import { useNavigate } from "react-router-dom";
+
+import { db } from "../../firebase";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 export default function CreateListingDoc() {
   const navigate = useNavigate();
   const auth = getAuth();
+  const params = useParams();
+  const [listing, setListing] = useState(null);
+
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState ({
-    nivelDeAcesso: "desenvolvedor",
-    tituloNarrativa:"",
-    narrativa:"",
-    cenarios:"",
+    nivelDeAcesso: "documentador",
+    tituloDocTestes: "",
+    docTestes:"",
     obsDoc:"",
     images: {},
   });
-  const { 
+  const {
     nivelDeAcesso,
-    tituloNarrativa,
-    narrativa,
-    cenarios,
-    obsDoc, 
+    obsDoc,
+    tituloDocTestes,
+    docTestes, 
     images,} = formData;
+    
+    useEffect(() => {
+    if (listing && listing.userRef !== auth.currentUser.uid) {
+      toast.error("You can't edit this listing");
+      navigate("/");
+    }
+    }, [auth.currentUser.uid, listing, navigate]);
+
+    useEffect(() => {
+        setLoading(true);
+        async function fetchListing() {
+          const docRef = doc(db, "listingsDoc", params.listingId);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            setListing(docSnap.data());
+            setFormData({ ...docSnap.data() });
+            setLoading(false);
+          } else {
+            navigate("/");
+            toast.error("Listing does not exist");
+          }
+        }
+        fetchListing();
+      }, [navigate, params.listingId]);
+
   
   function onChange(e) {
     let boolean = null;
@@ -61,12 +97,12 @@ export default function CreateListingDoc() {
     e.preventDefault();
     setLoading(true);
     
-    async function storeImage(application) {
+    async function storeImage(image) {
       return new Promise((resolve, reject) => {
         const storage = getStorage();
-        const filename = `${auth.currentUser.uid}-${application.name}-${uuidv4()}`;
+        const filename = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
         const storageRef = ref(storage, filename);
-        const uploadTask = uploadBytesResumable(storageRef, application);
+        const uploadTask = uploadBytesResumable(storageRef, image);
         uploadTask.on(
           "state_changed",
           (snapshot) => {
@@ -100,11 +136,10 @@ export default function CreateListingDoc() {
     }
 
     const imgUrls = await Promise.all(
-      [...images].map((application) => storeImage(application))
-      
+      [...images].map((image) => storeImage(image))
     ).catch((error) => {
       setLoading(false);
-      toast.error("Sem arquivos para subir");
+      toast.error("Images not uploaded");
       return;
     });
 
@@ -112,61 +147,47 @@ export default function CreateListingDoc() {
       ...formData,
       imgUrls,
       timestamp: serverTimestamp(),
-      userEmail: auth.currentUser.email,
       userRef: auth.currentUser.uid,
     };
     delete formDataCopy.images;
-    const docRef = await addDoc(collection(db, "listingsDev"), formDataCopy);
+    !formDataCopy.offer && delete formDataCopy.discountedPrice;
+    delete formDataCopy.latitude;
+    delete formDataCopy.longitude;
+    const docRef = doc(db, "listingsDoc", params.listingId);
+
+    await updateDoc(docRef, formDataCopy);
     setLoading(false);
-    toast.success("Criado com sucesso");
-    //navigate("/");
-    navigate("/profile-dev");
-    //navigate(`/category/${formDataCopy.nivelDeAcesso}/${docRef.id}`);
+    toast.success("Editado com sucesso");
+    navigate("/profile-doc");
+    //navigate(`/category/${formDataCopy.type}/${docRef.id}`);
   }
 
   if (loading) {
     return <Spinner />;
   }
-
-   //criar uma query 
-    //se o campo historiaCenarios da collection listings for true, liberar o formulário abaixo
-    //senão não mostrar nenhum campo
-
   return (
     <main className='max-w-md px-2 mx-auto'>
       <h1 className='text-3xl text-center mt-6
-      font-bold'> Nova narrativa </h1>
+      font-bold'> Editar a documentação referente ao teste </h1>
 
       <form onSubmit={onSubmit} >
 
-        <p className='text-lg mt-6 font-semibold'>Título nova narrativa</p>
+        <p className='text-lg mt-6 font-semibold'>Título referente a documentação</p>
         <div className=''>
-          <input type='text' id="tituloNarrativa" value={tituloNarrativa} onChange={onChange}
-          placeholder="Título do narrativa" maxLength="32" minLength="10" required className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6'/>
+          <input type='text' id="tituloDocTestes" value={tituloDocTestes} onChange={onChange}
+          placeholder="Título" maxLength="32" minLength="10" required className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6'/>
         </div>
 
 
-        <p className="text-lg font-semibold">Narrativa</p>
+        <p className="text-lg font-semibold">Descrição</p>
         <textarea
           type="text"
-          id="narrativa"
-          value={narrativa}
+          id="docTestes"
+          value={docTestes}
           onChange={onChange}
-          placeholder="Como, Quero, Para que"
+          placeholder="Aqui a linguagem mais técnica dos testadores, recebidas por meio dos testes das narrativas e cenários. São transcritas de formas mais clara de entender, para fazer parte da documentação final referente aos testes"
           required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
-        />
-
-        
-        <p className="text-lg font-semibold">Cenários</p>
-        <textarea
-          type="text"
-          id="cenarios"
-          value={cenarios}
-          onChange={onChange}
-          placeholder="Dado, Quando, Então"
-          required
-          className="w-full px-4 py-7 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
     
         <p className="text-lg font-semibold">Observações importantes</p>
@@ -175,7 +196,7 @@ export default function CreateListingDoc() {
           id="obsDoc"
           value={obsDoc}
           onChange={onChange}
-          placeholder="Observações importantes sobre as narrativas e cenários"
+          placeholder="Observações importantes sobre a realização da documentação"
           required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
@@ -193,8 +214,9 @@ export default function CreateListingDoc() {
             className="w-full px-3 py-1.5 text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:border-slate-600"
           />
         </div>
-        <button type="submit" className="mb-6 w-full px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Criar
+        <button type="submit" className="mb-6 w-full px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Editar
         </button>
+        
         </form>
     </main>
   )

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Spinner from "../components/Spinner";
+import Spinner from "../../components/Spinner";
 import { toast } from "react-toastify";
 import {
   getStorage,
@@ -10,7 +10,7 @@ import {
 import { getAuth } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 
 
@@ -156,22 +156,11 @@ export default function CreateListingDoc() {
           id="docTestes"
           value={docTestes}
           onChange={onChange}
-          placeholder="Aqui a linguagem mais técnica dos testadores, recebidas por meio dos testes das narrativas e cenários. São transcritas de formas mais clara de entender, para fazer parte da documentação final referente aos testes"
+          placeholder="Descrição"
           //required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
     
-        <p className="text-lg font-semibold">Observações importantes</p>
-        <textarea
-          type="text"
-          id="obsDoc"
-          value={obsDoc}
-          onChange={onChange}
-          placeholder="Observações importantes sobre a realização da documentação"
-          //required
-          className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
-        />
-        
         <p className="text-lg font-semibold">Relatório status do teste</p>
         <textarea
           type="text"
@@ -206,7 +195,7 @@ export default function CreateListingDoc() {
         />
 
 
-      <p className="text-lg font-semibold">Relatório sumário do teste</p>
+        <p className="text-lg font-semibold">Relatório sumário do teste</p>
         <textarea
           type="text"
           id="relatoSumarioDeTestes"
@@ -216,7 +205,19 @@ export default function CreateListingDoc() {
           //required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
-        <div className="mb-6">
+
+        <p className="text-lg font-semibold">Observações importantes</p>
+        <textarea
+          type="text"
+          id="obsDoc"
+          value={obsDoc}
+          onChange={onChange}
+          placeholder="Observações importantes sobre a realização da documentação"
+          //required
+          className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
+        />
+
+        <div className="mb-6 mt-6">
           <p className="text-lg font-semibold">Arquivos referentes ao projeto</p>
           <p className="text-gray-600">
           </p>
