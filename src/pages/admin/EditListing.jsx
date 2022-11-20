@@ -224,7 +224,11 @@ export default function CreateListing() {
               name = "planoDeTestes"
               onChange={handleChange}
               onClick={({ target }) => setFormData({ ...formData, planoDeTestes: target.checked })}
+              //${planoDeTestes ? checked : !checked}
+              //checked ={`${formData.planoDeTestes ? checked : !checked}`}
+              checked={formData.planoDeTestes}
               value={formData.planoDeTestes}
+
               aria-describedby="helper-checkbox-text" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
           </div>
           <div class="ml-2 text-sm">
@@ -241,7 +245,9 @@ export default function CreateListing() {
               name = "especDoProjetoDeTeste" 
               onChange={handleChange}
               onClick={({ target }) => setFormData({ ...formData, especDoProjetoDeTeste: target.checked })}
-              value={formData.especDeProjetoDeTeste}
+              checked={formData.especDoProjetoDeTeste}
+              value={formData.especDoProjetoDeTeste}
+
               aria-describedby="helper-checkbox-text" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
           </div>
           <div class="ml-2 text-sm">
@@ -258,11 +264,12 @@ export default function CreateListing() {
               name = "especDosCasosDeTestes" 
               onChange={handleChange}
               onClick={({ target }) => setFormData({ ...formData, especDosCasosDeTeste: target.checked })}
+              checked={formData.especDosCasosDeTeste}
               value={formData.especDosCasosDeTeste}
               aria-describedby="helper-checkbox-text" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
           </div>
           <div class="ml-2 text-sm">
-            <label for="checkbox1" class=" text-gray-900 dark:text-gray-300 text-lg font-semibold">Especificação dos casos de teste -  Responsabilidade do criador do projeto</label>
+            <label for="checkbox1" class=" text-gray-900 dark:text-gray-300 text-lg font-semibold">Especificação dos casos de testes -  Responsabilidade do criador do projeto</label>
           </div>
         </div>
 
@@ -276,6 +283,7 @@ export default function CreateListing() {
               name = "especDeProcedimentoDeTeste" 
               onChange={handleChange}
               onClick={({ target }) => setFormData({ ...formData, especDeProcedimentoDeTeste: target.checked })}
+              checked={formData.especDeProcedimentoDeTeste}
               value={formData.especDeProcedimentoDeTeste}
               aria-describedby="helper-checkbox-text" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
           </div>
@@ -293,6 +301,7 @@ export default function CreateListing() {
               name = "relatoStatusDeTeste" 
               onChange={handleChange}
               onClick={({ target }) => setFormData({ ...formData, relatoStatusDeTeste: target.checked })}
+              checked={formData.relatoStatusDeTeste}
               value={formData.relatoStatusDeTeste}
               aria-describedby="helper-checkbox-text" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
           </div>
@@ -311,6 +320,7 @@ export default function CreateListing() {
               name = "logDeTeste" 
               onChange={handleChange}
               onClick={({ target }) => setFormData({ ...formData, logDeTeste: target.checked })}
+              checked={formData.logDeTeste}
               value={formData.logDeTeste}
               aria-describedby="helper-checkbox-text" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
           </div>
@@ -328,6 +338,7 @@ export default function CreateListing() {
               name = "relatoIncidenteDeTestes" 
               onChange={handleChange}
               onClick={({ target }) => setFormData({ ...formData, relatoIncidenteDeTestes: target.checked })}
+              checked={formData.relatoIncidenteDeTestes}
               value={formData.relatoIncidenteDeTestes}
               aria-describedby="helper-checkbox-text" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
           </div>
@@ -345,6 +356,7 @@ export default function CreateListing() {
               name = "relatoSumarioDeTestes" 
               onChange={handleChange}
               onClick={({ target }) => setFormData({ ...formData, relatoSumarioDeTestes: target.checked })}
+              checked={formData.relatoSumarioDeTestes}
               value={formData.relatoSumarioDeTestes}
               aria-describedby="helper-checkbox-text" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
           </div>
@@ -363,6 +375,7 @@ export default function CreateListing() {
               name = "historiaCenarios" 
               onChange={handleChange}
               onClick={({ target }) => setFormData({ ...formData, historiaCenarios: target.checked })}
+              checked={formData.historiaCenarios}
               value={formData.historiaCenarios}
               aria-describedby="helper-checkbox-text" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
           </div>
@@ -382,6 +395,7 @@ export default function CreateListing() {
               name = "documentacao" 
               onChange={handleChange}
               onClick={({ target }) => setFormData({ ...formData, documentacao: target.checked })}
+              checked={formData.documentacao}
               value={formData.documentacao}
               aria-describedby="helper-checkbox-text" 
               
@@ -407,7 +421,7 @@ export default function CreateListing() {
             className="w-full px-3 py-1.5 text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:border-slate-600"
           />
         </div>
-        <button type="submit" className="mb-6 w-full px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Criar Projeto
+        <button type="submit" className="mb-6 w-full px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Salvar
         </button>
         
         

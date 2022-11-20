@@ -9,12 +9,29 @@ import {
 } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import {
+  collection,
+  doc,
+  getDocs,
+  orderBy,
+  query,
+  updateDoc,
+  where,
+  deleteDoc,
+} from "firebase/firestore";
 
 
 export default function CreateListingDoc() {
+  const [listingsTest, setListingsTest] = useState(null);
+  const [hasRelaStatusTestListing, setHasRelaStatusTestListing] = useState(false);
+  const [hasLogTestListing, setHasLogTestListing] = useState(false);
+  const [hasRelaInciTestListing, setHasRelaInciTestListing] = useState(false);
+  const [hasRelaSumaTestListing, setHasRelaSumaTestListing] = useState(false);
+
   const navigate = useNavigate();
   const auth = getAuth();
   const [loading, setLoading] = useState(false);
@@ -69,7 +86,7 @@ export default function CreateListingDoc() {
   async function onSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    
+
     async function storeImage(application) {
       return new Promise((resolve, reject) => {
         const storage = getStorage();
@@ -133,6 +150,31 @@ export default function CreateListingDoc() {
     //navigate(`/category/${formDataCopy.nivelDeAcesso}/${docRef.id}`);
   }
 
+  useEffect(() => {
+
+    async function fetchUserListings() {
+      const listingRef = collection(db, "listings");
+      const q = query(
+        listingRef,
+        where("userRef", "==", auth.currentUser.uid),
+      );
+      const querySnap = await getDocs(q);
+      let listingsTest = [];
+      querySnap.forEach((doc) => {
+        return listingsTest.push({
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
+      setHasRelaStatusTestListing(listingsTest.find((doc) => !!doc.relatoStatusDeTeste))
+      setHasLogTestListing(listingsTest.find((doc) => !!doc.logDeTeste))
+      setHasRelaInciTestListing(listingsTest.find((doc) => !!doc.relatoIncidenteDeTestes))
+      setHasRelaSumaTestListing(listingsTest.find((doc) => !!doc.relatoSumarioDeTestes))
+      listingsTest(listingsTest);
+    }
+    fetchUserListings();
+  }, [auth.currentUser.uid]);
+
   if (loading) {
     return <Spinner />;
   }
@@ -160,7 +202,7 @@ export default function CreateListingDoc() {
           //required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
-    
+        {hasRelaStatusTestListing && <div>
         <p className="text-lg font-semibold">Relatório status do teste</p>
         <textarea
           type="text"
@@ -171,18 +213,22 @@ export default function CreateListingDoc() {
           //required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
+        </div>}
 
+        {hasLogTestListing && <div>
         <p className="text-lg font-semibold">Log do teste</p>
         <textarea
           type="text"
           id="logDeTeste"
           value={logDeTeste}
           onChange={onChange}
-          placeholder="Observações importantes sobre a realização da documentação"
+          placeholder="Detalhes sobre a execução do teste"
           //required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
+        </div>}
 
+        {hasRelaInciTestListing && <div>
         <p className="text-lg font-semibold">Relatório de incidente do teste</p>
         <textarea
           type="text"
@@ -193,18 +239,21 @@ export default function CreateListingDoc() {
           //required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
+        </div>}
 
 
+        {hasRelaSumaTestListing && <div>
         <p className="text-lg font-semibold">Relatório sumário do teste</p>
         <textarea
           type="text"
           id="relatoSumarioDeTestes"
           value={relatoSumarioDeTestes}
           onChange={onChange}
-          placeholder="Resultados obtidos"
+          placeholder="Todos resultados obtidos durante o teste"
           //required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
+        </div>}
 
         <p className="text-lg font-semibold">Observações importantes</p>
         <textarea

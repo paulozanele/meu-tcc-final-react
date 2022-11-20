@@ -172,21 +172,21 @@ export default function CreateListingDoc() {
 
       <form onSubmit={onSubmit} >
 
-        <p className='text-lg mt-6 font-semibold'>Título referente a documentação</p>
+        <p className='text-lg mt-6 font-semibold'>Título</p>
         <div className=''>
           <input type='text' id="tituloDocTestes" value={tituloDocTestes} onChange={onChange}
           placeholder="Título" maxLength="32" minLength="10" required className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6'/>
         </div>
 
 
-        <p className="text-lg font-semibold">Descrição</p>
+        <p className="text-lg font-semibold">Documento</p>
         <textarea
           type="text"
           id="docTestes"
           value={docTestes}
           onChange={onChange}
           placeholder="Aqui a linguagem mais técnica dos testadores, recebidas por meio dos testes das narrativas e cenários. São transcritas de formas mais clara de entender, para fazer parte da documentação final referente aos testes"
-          required
+          //required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
     
@@ -196,8 +196,8 @@ export default function CreateListingDoc() {
           id="obsDoc"
           value={obsDoc}
           onChange={onChange}
-          placeholder="Observações importantes sobre a realização da documentação"
-          required
+          placeholder="Observações importantes sobre documentação"
+          //required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
         <div className="mb-6">
@@ -208,13 +208,13 @@ export default function CreateListingDoc() {
             type="file"
             id="images"
             onChange={onChange}
-            accept=".jpg,.png,.jpeg,.pdf,"
+            accept=".jpg,.png,.jpeg,.pdf"
             multiple
             required
             className="w-full px-3 py-1.5 text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:border-slate-600"
           />
         </div>
-        <button type="submit" className="mb-6 w-full px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Editar
+        <button type="submit" className="mb-6 w-full px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Salvar
         </button>
         
         </form>

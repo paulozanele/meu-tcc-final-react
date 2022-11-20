@@ -10,10 +10,10 @@ export default function ListingItemTest({ users, listing, id, onEdit, onDelete }
             <Link to={`/test/${id}`}>
               <div className='w-full p-[70px]  '>
                 <Moment className=" font-semibold text-sm mb-[2px] text-gray-600 truncate"
-                    fromNow>
+                  fromNow>
                   {listing.timestamp?.toDate()}
-                  </Moment>
-                  <p className="font-semibold m-0 text-xl truncate" >{listing.tituloDocTestes}</p>
+                </Moment>
+                <p className="font-semibold m-0 text-xl truncate" >{listing.tituloDocTestes}</p>
               </div>
             </Link>
             {onDelete && (

@@ -5,10 +5,23 @@ import { useParams } from "react-router-dom";
 import Spinner from "../../components/Spinner";
 import { db } from "../../firebase";
 import { getAuth } from "firebase/auth";
+import {
+  getDocs,
+  where,
+  query,
+  addDoc,
+  collection,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
 
 
 export default function ListingTest() {
-  
+  const [listingsTest, setListingsTest] = useState(null);
+  const [hasRelaStatusTestListing, setHasRelaStatusTestListing] = useState(false);
+  const [hasLogTestListing, setHasLogTestListing] = useState(false);
+  const [hasRelaInciTestListing, setHasRelaInciTestListing] = useState(false);
+  const [hasRelaSumaTestListing, setHasRelaSumaTestListing] = useState(false);
   const auth = getAuth();
   const params = useParams();
   const [listing, setListing] = useState(null);
@@ -25,7 +38,29 @@ export default function ListingTest() {
       }
     }
     fetchListing();
+    async function fetchUserListings1() {
+      const listingRef = collection(db, "listings");
+      const q = query(
+        listingRef,
+        where("userRef", "==", auth.currentUser.uid),
+      );
+      const querySnap = await getDocs(q);
+      let listingsTest = [];
+      querySnap.forEach((doc) => {
+        return listingsTest.push({
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
+      setHasRelaStatusTestListing(listingsTest.find((doc) => !!doc.relatoStatusDeTeste))
+      setHasLogTestListing(listingsTest.find((doc) => !!doc.logDeTeste))
+      setHasRelaInciTestListing(listingsTest.find((doc) => !!doc.relatoIncidenteDeTestes))
+      setHasRelaSumaTestListing(listingsTest.find((doc) => !!doc.relatoSumarioDeTestes))
+      listingsTest(listingsTest);
+    }
+    fetchUserListings1();
   }, [params.listingId]);
+
 
   if (loading) {
     return <Spinner />;
@@ -43,22 +78,35 @@ export default function ListingTest() {
             <span className="font-semibold">Descrição - </span>
            {listing.docTestes}
           </p>
+
+          {hasRelaStatusTestListing && <div>
           <p className="mt-3 mb-3">
             <span className="font-semibold">Relatório status do teste - </span>
             {listing.relatoStatusDeTeste}
           </p>
+          </div>}
+
+          {hasLogTestListing && <div>
           <p className="mt-3 mb-3">
             <span className="font-semibold">Log do teste - </span>
             {listing.logDeTeste}
           </p>
+          </div>}
+
+          {hasRelaInciTestListing && <div>
           <p className="mt-3 mb-3">
             <span className="font-semibold">Relatório de incidente do teste - </span>
             {listing.relatoIncidenteDeTestes}
           </p>
+          </div>}
+
+          {hasRelaSumaTestListing && <div>
           <p className="mt-3 mb-3">
             <span className="font-semibold">Relatório sumário do teste - </span>
             {listing.relatoSumarioDeTestes}
           </p>
+          </div>}
+
           <p className="mt-3 mb-3">
             <span className="font-semibold"> Responsável - </span>
             {listing.userEmail}

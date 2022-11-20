@@ -40,7 +40,7 @@ export default function ListingDoc() {
           <div className="flex justify-start items-center space-x-4 w-[75%]">
           </div>
           <p className="mt-3 mb-3">
-            <span className="font-semibold">Descrição - </span>
+            <span className="font-semibold">Documento - </span>
            {listing.docTestes}
           </p>
           <p className="mt-3 mb-3">

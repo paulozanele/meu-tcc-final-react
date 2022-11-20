@@ -27,6 +27,11 @@ export default function ProfileTest() {
   const { name, email } = formData;
   const [listings, setListings] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [listingsTest, setListingsTest] = useState(null);
+  const [hasRelaStatusTestListing, setHasRelaStatusTestListing] = useState(false);
+  const [hasLogTestListing, setHasLogTestListing] = useState(false);
+  const [hasRelaInciTestListing, setHasRelaInciTestListing] = useState(false);
+  const [hasRelaSumaTestListing, setHasRelaSumaTestListing] = useState(false);
 
   function onChange(e) {
     setFormData((prevState)=>({
@@ -64,7 +69,7 @@ export default function ProfileTest() {
   }
 
   useEffect(() => {
-    async function fetchUserListings() {
+    async function fetchUserListings1() {
       const listingRef = collection(db, "listingsTest");
       const q = query(
         listingRef,
@@ -80,6 +85,28 @@ export default function ProfileTest() {
       });
       setListings(listings);
       setLoading(false);
+    }
+    fetchUserListings1();
+
+    async function fetchUserListings() {
+      const listingRef = collection(db, "listings");
+      const q = query(
+        listingRef,
+        where("userRef", "==", auth.currentUser.uid),
+      );
+      const querySnap = await getDocs(q);
+      let listingsTest = [];
+      querySnap.forEach((doc) => {
+        return listingsTest.push({
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
+      setHasRelaStatusTestListing(listingsTest.find((doc) => !!doc.relatoStatusDeTeste))
+      setHasLogTestListing(listingsTest.find((doc) => !!doc.logDeTeste))
+      setHasRelaInciTestListing(listingsTest.find((doc) => !!doc.relatoIncidenteDeTestes))
+      setHasRelaSumaTestListing(listingsTest.find((doc) => !!doc.relatoSumarioDeTestes))
+      listingsTest(listingsTest);
     }
     fetchUserListings();
   }, [auth.currentUser.uid]);
@@ -104,14 +131,17 @@ export default function ProfileTest() {
     <>
       <section className="max-w-6xl mx-auto flex justify-center items-center flex-col">
         <h1 className="text-3xl text-center mt-6 font-bold">Perfil Testador</h1>
-        <div className="w-full md:w-[50%] mt-6 px-3">
+        {(hasRelaStatusTestListing || hasLogTestListing || hasRelaInciTestListing || hasRelaSumaTestListing ) && <div className="w-full md:w-[50%] mt-6 px-3">
           <button type="submit" 
           className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
             <Link to ="/create-listing-test">
               Adicionar novos dados referente ao teste
             </Link>
           </button>
-        </div>
+        </div>}
+        {(!hasRelaStatusTestListing && !hasLogTestListing && !hasRelaInciTestListing && !hasRelaSumaTestListing) && <div className="w-full md:w-[50%] mt-6 px-3">
+          <h2 className="text-2xl text-center mt-6 font-bold">Nenhum documento com responsabilidade do documentador foi definido durante a criação do projeto</h2>
+        </div>}
       </section>
       <div className="max-w-6xl px-3 mt-6 mx-auto">
         {!loading && listings.length > 0 && (

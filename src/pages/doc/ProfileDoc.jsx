@@ -140,6 +140,9 @@ export default function ProfileDoc() {
             </Link>
           </button>
         </div>}
+        {!hasDocListing && <div className="w-full md:w-[50%] mt-6 px-3">
+          <h2 className="text-2xl text-center mt-6 font-bold">Nenhum documento com responsabilidade do documentador foi definido durante a criação do projeto</h2>
+        </div>}
       </section>
       <div className="max-w-6xl px-3 mt-6 mx-auto">
         {!loading && listings.length > 0 && (

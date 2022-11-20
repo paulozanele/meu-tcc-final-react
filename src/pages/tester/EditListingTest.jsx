@@ -13,6 +13,9 @@ import {
 } from "firebase/storage";
 
 import {
+    getDocs,
+    where,
+    query,
     addDoc,
     collection,
     doc,
@@ -22,6 +25,12 @@ import {
   } from "firebase/firestore";
 
 export default function CreateListing() {
+  const [listingsTest, setListingsTest] = useState(null);
+  const [hasRelaStatusTestListing, setHasRelaStatusTestListing] = useState(false);
+  const [hasLogTestListing, setHasLogTestListing] = useState(false);
+  const [hasRelaInciTestListing, setHasRelaInciTestListing] = useState(false);
+  const [hasRelaSumaTestListing, setHasRelaSumaTestListing] = useState(false);
+  
   const navigate = useNavigate();
   const auth = getAuth();
   const params = useParams();
@@ -75,6 +84,27 @@ export default function CreateListing() {
           }
         }
         fetchListing();
+        async function fetchUserListings1() {
+          const listingRef = collection(db, "listings");
+          const q = query(
+            listingRef,
+            where("userRef", "==", auth.currentUser.uid),
+          );
+          const querySnap = await getDocs(q);
+          let listingsTest = [];
+          querySnap.forEach((doc) => {
+            return listingsTest.push({
+              id: doc.id,
+              ...doc.data(),
+            });
+          });
+          setHasRelaStatusTestListing(listingsTest.find((doc) => !!doc.relatoStatusDeTeste))
+          setHasLogTestListing(listingsTest.find((doc) => !!doc.logDeTeste))
+          setHasRelaInciTestListing(listingsTest.find((doc) => !!doc.relatoIncidenteDeTestes))
+          setHasRelaSumaTestListing(listingsTest.find((doc) => !!doc.relatoSumarioDeTestes))
+          listingsTest(listingsTest);
+        }
+        fetchUserListings1();
       }, [navigate, params.listingId]);
 
   
@@ -177,7 +207,7 @@ export default function CreateListing() {
   return (
     <main className='max-w-md px-2 mx-auto'>
       <h1 className='text-3xl text-center mt-6
-      font-bold'> Editar dados referente ao teste </h1>
+      font-bold'> Novos dados referente ao teste </h1>
 
       <form onSubmit={onSubmit} >
 
@@ -194,22 +224,11 @@ export default function CreateListing() {
           id="docTestes"
           value={docTestes}
           onChange={onChange}
-          placeholder="Aqui a linguagem mais técnica dos testadores, recebidas por meio dos testes das narrativas e cenários. São transcritas de formas mais clara de entender, para fazer parte da documentação final referente aos testes"
+          placeholder="Descrição"
           //required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
-    
-        <p className="text-lg font-semibold">Observações importantes</p>
-        <textarea
-          type="text"
-          id="obsDoc"
-          value={obsDoc}
-          onChange={onChange}
-          placeholder="Observações importantes sobre a realização da documentação"
-          //required
-          className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
-        />
-        
+        {hasRelaStatusTestListing && <div>
         <p className="text-lg font-semibold">Relatório status do teste</p>
         <textarea
           type="text"
@@ -220,7 +239,9 @@ export default function CreateListing() {
           //required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
+        </div>}
 
+        {hasLogTestListing && <div>
         <p className="text-lg font-semibold">Log do teste</p>
         <textarea
           type="text"
@@ -231,7 +252,9 @@ export default function CreateListing() {
           //required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
+        </div>}
 
+        {hasRelaInciTestListing && <div>
         <p className="text-lg font-semibold">Relatório de incidente do teste</p>
         <textarea
           type="text"
@@ -242,19 +265,34 @@ export default function CreateListing() {
           //required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
+        </div>}
 
 
-      <p className="text-lg font-semibold">Relatório sumário do teste</p>
+        {hasRelaSumaTestListing && <div>
+        <p className="text-lg font-semibold">Relatório sumário do teste</p>
         <textarea
           type="text"
           id="relatoSumarioDeTestes"
           value={relatoSumarioDeTestes}
           onChange={onChange}
-          placeholder="Resultados obtidos"
+          placeholder="Todos resultados obtidos durante o teste"
           //required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
-        <div className="mb-6">
+        </div>}
+
+        <p className="text-lg font-semibold">Observações importantes</p>
+        <textarea
+          type="text"
+          id="obsDoc"
+          value={obsDoc}
+          onChange={onChange}
+          placeholder="Observações importantes sobre a realização da documentação"
+          //required
+          className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
+        />
+
+        <div className="mb-6 mt-6">
           <p className="text-lg font-semibold">Arquivos referentes ao projeto</p>
           <p className="text-gray-600">
           </p>
@@ -262,13 +300,13 @@ export default function CreateListing() {
             type="file"
             id="images"
             onChange={onChange}
-            accept=".jpg,.png,.jpeg,.pdf,"
+            accept=".jpg,.png,.jpeg,.pdf"
             multiple
             required
             className="w-full px-3 py-1.5 text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:border-slate-600"
           />
         </div>
-        <button type="submit" className="mb-6 w-full px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Editar
+        <button type="submit" className="mb-6 w-full px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Salvar
         </button>
         
         </form>

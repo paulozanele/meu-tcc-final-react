@@ -136,21 +136,21 @@ export default function CreateListingDoc() {
 
       <form onSubmit={onSubmit} >
 
-        <p className='text-lg mt-6 font-semibold'>Título referente a documentação</p>
+        <p className='text-lg mt-6 font-semibold'>Título</p>
         <div className=''>
           <input type='text' id="tituloDocTestes" value={tituloDocTestes} onChange={onChange}
           placeholder="Título" maxLength="32" minLength="10" required className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6'/>
         </div>
 
 
-        <p className="text-lg font-semibold">Descrição</p>
+        <p className="text-lg font-semibold">Documento</p>
         <textarea
           type="text"
           id="docTestes"
           value={docTestes}
           onChange={onChange}
           placeholder="Aqui a linguagem mais técnica dos testadores, recebidas por meio dos testes das narrativas e cenários. São transcritas de formas mais clara de entender, para fazer parte da documentação final referente aos testes"
-          required
+          //required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
     
@@ -160,8 +160,8 @@ export default function CreateListingDoc() {
           id="obsDoc"
           value={obsDoc}
           onChange={onChange}
-          placeholder="Observações importantes sobre a realização da documentação"
-          required
+          placeholder="Observações importantes sobre a documentação"
+          //required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
         <div className="mb-6">
