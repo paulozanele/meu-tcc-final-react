@@ -129,11 +129,7 @@ export default function Profile() {
             </Link>
           </button>
           <div className=" font-medium mb-6 mt-5">
-            <p 
-              onClick={onLogout}
-              className="  text-2xl flex items-center  text-red-600 hover:text-red-700 transition ease-in-out duration-200 ml-1 cursor-pointer">
-              Sair
-            </p>
+
           </div>
         </div>
       </section>

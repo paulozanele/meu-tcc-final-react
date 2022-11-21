@@ -35,7 +35,7 @@ export default function Signin() {
         password
       );
       if (userCredential.user) {
-        toast.success("Entrar realizado com sucesso");
+        //toast.success("Entrar realizado com sucesso");
         navigate("/profile");
       }
     } catch (error) {

@@ -185,7 +185,7 @@ export default function CreateListingDoc() {
 
       <form onSubmit={onSubmit} >
 
-        <p className='text-lg mt-6 font-semibold'>Título referente ao teste</p>
+        <p className='text-lg mt-6 font-semibold'>Título referente ao teste (Mínimo 10 caracteres)</p>
         <div className=''>
           <input type='text' id="tituloDocTestes" value={tituloDocTestes} onChange={onChange}
           placeholder="Título" maxLength="32" minLength="10" required className='w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6'/>

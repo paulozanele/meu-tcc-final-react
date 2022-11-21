@@ -8,18 +8,26 @@ export default function Header() {
   
   const[pageState1, setPageState1] = useState("Cadastre-se");
   const[pageState, setPageState] = useState("Entrar");
+  const[pageState2, setPageState2] = useState("Sair");
   const navigate = useNavigate ();
   const location = useLocation();
   const auth = getAuth();
+
+  function onLogout() {
+    auth.signOut();
+    navigate("/sign-in");
+  }
 
   useEffect(() => {
     onAuthStateChanged(auth, (user)=>{
       if (user){
         setPageState("Perfis");
         setPageState1("");
+        setPageState2("Sair");
       } else {
         setPageState("Entrar");
         setPageState1("Cadastre-se");
+        setPageState2("");
       }
 
     });
@@ -66,6 +74,14 @@ export default function Header() {
             onClick={()=>navigate("/sign-up")}>
               {pageState1}
           </li>
+          <li
+            className={`cursor-pointer py-3 text-sm font-semibold text-red-400 border-b-[3px] border-b-transparent 
+            ${
+              (pathMatchRoute("/") || pathMatchRoute("/sign-in") || pathMatchRoute("/profile")) }`}
+              onClick={onLogout}>
+              {pageState2}
+          </li>
+
           </ul>
         </div>
       </header>
