@@ -47,7 +47,7 @@ export default function Header() {
             className={`cursor-pointer py-3 text-sm font-semibold text-gray-400 border-b-[3px] border-b-transparent 
             ${ pathMatchRoute("/view") && "text-black border-b-blue-500"}`}
             onClick={()=>navigate("/view")}>
-              Visualizar
+              Visualizar projeto
           </li>
 
           <li

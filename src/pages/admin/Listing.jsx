@@ -50,7 +50,7 @@ export default function Listing() {
                 {listing.planoDeTestes ? "Sim" : "Não"}
           </p>
           <p className="mt-3 mb-3">
-                <span className="font-semibold">Especificação do projeto - </span>
+                <span className="font-semibold">Especificação do projeto de teste - </span>
                 {listing.especDoProjetoDeTeste ? "Sim" : "Nao"}
             </p>
             <p className="mt-3 mb-3">
