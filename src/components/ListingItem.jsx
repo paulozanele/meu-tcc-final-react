@@ -12,7 +12,7 @@ export default function ListingItem({ users, listing, id, onEdit, onDelete }) {
                 <Moment className=" font-semibold text-sm mb-[2px] text-gray-600 truncate"
                     fromNow>
                   {listing.timestamp?.toDate()}
-                  </Moment>
+                </Moment>
                   <p className="font-semibold m-0 text-xl truncate" >{listing.nomeProjeto}</p>
                   <p className="font-semibold text-sm mb-[2px] text-gray-600 truncate" >{listing.descricaoProjeto}</p>
               </div>

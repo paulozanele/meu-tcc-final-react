@@ -136,7 +136,7 @@ export default function ProfileDoc() {
           <button type="submit" 
           className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
             <Link to ="/create-listing-doc">
-              Iniciar um novo documento
+              Criar um novo documento
             </Link>
           </button>
         </div>}

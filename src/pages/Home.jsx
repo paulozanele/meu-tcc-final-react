@@ -138,7 +138,7 @@ export default function Home() {
         {documListings && documListings.length > 0 && (
           <div className="m-2 mb-6">
             <h2 className="px-3 text-2xl mt-6 font-semibold">Documentos - Documentadores</h2>
-            <ul className="sm:grid sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
+            <ul className="sm:grid grid-cols-2 lg:grid-cols-3">
             {documListings.map((listingDoc) => (
                 <ListingItemDoc
                   key={listingDoc.id}

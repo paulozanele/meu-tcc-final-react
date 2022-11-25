@@ -131,7 +131,7 @@ export default function ProfileTest() {
     <>
       <section className="max-w-6xl mx-auto flex justify-center items-center flex-col">
         <h1 className="text-3xl text-center mt-6 font-bold">Perfil Testador</h1>
-        <h2 className="text-2xl text-center mt-6 font-bold">Documentos a serem definido:</h2>
+        <h2 className="text-2xl text-center mt-6 font-bold">Documentos a serem definidos:</h2>
         {(hasRelaStatusTestListing || hasLogTestListing || hasRelaInciTestListing || hasRelaSumaTestListing ) && <div className="w-full md:w-[50%] mt-6 px-3">
           <button type="submit" 
           className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
@@ -141,7 +141,7 @@ export default function ProfileTest() {
           </button>
         </div>}
         {(!hasRelaStatusTestListing && !hasLogTestListing && !hasRelaInciTestListing && !hasRelaSumaTestListing) && <div className="w-full md:w-[50%] mt-6 px-3">
-          <h2 className="text-2xl text-center mt-6 font-bold">Nenhum documento com responsabilidade do documentador foi definido durante a criação do projeto</h2>
+          <h2 className="text-2xl text-center mt-6 font-bold">Nenhum documento com responsabilidade do testador foi definido durante a criação do projeto</h2>
         </div>}
       </section>
       <div className="max-w-6xl px-3 mt-6 mx-auto">

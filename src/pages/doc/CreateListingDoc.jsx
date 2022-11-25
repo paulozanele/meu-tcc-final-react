@@ -143,13 +143,13 @@ export default function CreateListingDoc() {
         </div>
 
 
-        <p className="text-lg font-semibold">Documento</p>
+        <p className="text-lg font-semibold">Documentação</p>
         <textarea
           type="text"
           id="docTestes"
           value={docTestes}
           onChange={onChange}
-          placeholder="Aqui a linguagem mais técnica dos testadores, recebidas por meio dos testes das narrativas e cenários. São transcritas de formas mais clara de entender, para fazer parte da documentação final referente aos testes"
+          placeholder="Documentação referente ao teste"
           //required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
@@ -165,7 +165,7 @@ export default function CreateListingDoc() {
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
         <div className="mb-6">
-          <p className="text-lg font-semibold">Arquivos referentes ao projeto</p>
+          <p className="text-lg font-semibold">Arquivos referentes a documentação</p>
           <p className="text-gray-600">
           </p>
           <input
