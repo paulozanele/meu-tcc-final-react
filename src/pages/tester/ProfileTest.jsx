@@ -136,7 +136,7 @@ export default function ProfileTest() {
           <button type="submit" 
           className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
             <Link to ="/create-listing-test">
-              Criar novos documentos referente ao teste
+              Criar novos documentos referentes ao teste
             </Link>
           </button>
         </div>}
