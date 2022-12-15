@@ -104,30 +104,34 @@ export default function Profile() {
       <section className="max-w-6xl mx-auto flex justify-center items-center flex-col">
         <h1 className="text-3xl text-center mt-6 font-bold">Perfis</h1>
         <div className="w-full md:w-[50%] mt-6 px-3">
+
+          <Link to ="/profile-admin">
+            <button type="submit" 
+              className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
+                Entrar como Administrador
+            </button>
+          </Link>
+
+          <Link to ="/profile-dev">
+            <button type="submit" 
+              className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
+                Entrar como Desenvolvedor
+            </button>
+          </Link>
+          
+          <Link to ="/profile-test">
+            <button type="submit" 
+            className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
+              Entrar como Testador
+            </button>
+          </Link>
+          
+          <Link to ="/profile-doc">
           <button type="submit" 
-          className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
-            <Link to ="/profile-admin">
-              Entrar como Administrador
-            </Link>
-          </button>
-          <button type="submit" 
-          className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
-            <Link to ="/profile-dev">
-              Entre como Desenvolvedor
-            </Link>
-          </button>
-                    <button type="submit" 
-          className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
-            <Link to ="/profile-test">
-              Entre como Testador
-            </Link>
-          </button>
-          <button type="submit" 
-          className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
-            <Link to ="/profile-doc">
-              Entre como Documentador
-            </Link>
-          </button>
+            className="mt-6 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
+              Entrar como Documentador
+            </button>
+          </Link>
           <div className=" font-medium mb-6 mt-5">
 
           </div>

@@ -9,6 +9,7 @@ export default function Header() {
   const[pageState1, setPageState1] = useState("Cadastre-se");
   const[pageState, setPageState] = useState("Entrar");
   const[pageState2, setPageState2] = useState("Sair");
+  const[pageState3, setPageState3] = useState("Visualizar Projeto");
   const navigate = useNavigate ();
   const location = useLocation();
   const auth = getAuth();
@@ -24,10 +25,12 @@ export default function Header() {
         setPageState("Perfis");
         setPageState1("");
         setPageState2("Sair");
+        setPageState3("Vizualizar Projeto")
       } else {
         setPageState("Entrar");
         setPageState1("Cadastre-se");
         setPageState2("");
+        setPageState3("");
       }
 
     });
@@ -55,7 +58,7 @@ export default function Header() {
             className={`cursor-pointer py-3 text-sm font-semibold text-gray-400 border-b-[3px] border-b-transparent 
             ${ pathMatchRoute("/view") && "text-black border-b-blue-500"}`}
             onClick={()=>navigate("/view")}>
-              Visualizar projeto
+              {pageState3}
           </li>
 
           <li
@@ -77,7 +80,7 @@ export default function Header() {
           <li
             className={`cursor-pointer py-3 text-sm font-semibold text-red-400 border-b-[3px] border-b-transparent 
             ${
-              (pathMatchRoute("/") || pathMatchRoute("/sign-in") || pathMatchRoute("/profile")) }`}
+              (pathMatchRoute("/view") || pathMatchRoute("/") || pathMatchRoute("/sign-in") || pathMatchRoute("/profile")) }`}
               onClick={onLogout}>
               {pageState2}
           </li>
